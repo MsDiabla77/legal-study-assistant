@@ -316,17 +316,7 @@ button.danger:hover {
   margin-top: 16px;
 }
 
-/* Kill any accidental oversized blob or circle */
-body::before,
-body::after,
-.container::before,
-.container::after,
-.tab::before,
-.tab::after,
-#dashboard::before,
-#dashboard::after {
-  display: none !important;
-  content: none !important;
+nt: none !important;
 }
 
 /* Mobile */
