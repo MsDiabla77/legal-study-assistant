@@ -9,141 +9,134 @@
 
 <body>
   <main class="app-shell">
-
     <header class="topbar">
+      <p>AI-powered legal study workspace</p>
       <h1>Legal Study Helper</h1>
     </header>
 
     <nav class="tabs">
-      <button class="tab active" data-tab="translator">Translator</button>
-      <button class="tab" data-tab="test">Test Me</button>
-      <button class="tab" data-tab="reply">Reply</button>
-      <button class="tab" data-tab="warnings">Warnings</button>
-      <button class="tab" data-tab="citations">Citations</button>
-      <button class="tab" data-tab="apaPaper">APA Paper</button>
-      <button class="tab" data-tab="professor">Professor Mode</button>
+      <button class="tab active" data-tab="translator" type="button">Translator</button>
+      <button class="tab" data-tab="test" type="button">Test Me</button>
+      <button class="tab" data-tab="reply" type="button">Reply Ideas</button>
+      <button class="tab" data-tab="warnings" type="button">Warnings</button>
+      <button class="tab" data-tab="citations" type="button">Citations</button>
+      <button class="tab" data-tab="apaPaper" type="button">APA Paper</button>
+      <button class="tab" data-tab="professor" type="button">Professor Mode</button>
+      <button class="tab" data-tab="studyCards" type="button">Study Cards</button>
     </nav>
 
     <section class="workspace">
 
-      <!-- TRANSLATOR -->
       <article class="tool-panel active" id="translator">
-        <h2>Translate Legal Text</h2>
-
+        <h2>Plain English Legal Translator</h2>
         <textarea id="legalInput" placeholder="Paste legal text here..."></textarea>
-        <textarea id="translationOutput" readonly placeholder="Plain English will appear here..."></textarea>
-
+        <textarea id="translationOutput" readonly placeholder="Plain English explanation will appear here..."></textarea>
         <div class="actions">
-          <button id="translateBtn">Translate</button>
-          <button id="copyTranslation">Copy</button>
-          <button id="clearTranslator">Clear</button>
+          <button id="translateBtn" type="button">Translate</button>
+          <button id="copyTranslation" type="button">Copy</button>
+          <button id="clearTranslator" type="button">Clear</button>
         </div>
       </article>
 
-      <!-- TEST ME -->
       <article class="tool-panel" id="test">
         <h2>Legal Study Practice</h2>
-
         <select id="studyMode">
           <option value="easy">Easy Review</option>
-          <option value="medium">Medium</option>
-          <option value="exam">Exam Practice</option>
+          <option value="medium">Medium Practice</option>
+          <option value="exam">Exam / IRAC Practice</option>
         </select>
-
-        <div id="questionList"></div>
-
+        <div id="questionList" class="output-box"></div>
         <div class="actions">
-          <button id="makeTest">Make Questions</button>
-          <button id="clearTest">Clear</button>
+          <button id="makeTest" type="button">Make Questions</button>
+          <button id="clearTest" type="button">Clear</button>
         </div>
       </article>
 
-      <!-- REPLY -->
       <article class="tool-panel" id="reply">
-        <h2>Reply Ideas</h2>
-
-        <textarea id="classmatePost" placeholder="Paste classmate post..."></textarea>
+        <h2>Discussion Reply Ideas</h2>
+        <textarea id="classmatePost" placeholder="Paste your classmate's discussion post..."></textarea>
         <textarea id="replyOutput" readonly placeholder="Reply ideas will appear here..."></textarea>
-
         <div class="actions">
-          <button id="makeReply">Draft Reply</button>
-          <button id="copyReply">Copy</button>
-          <button id="clearReply">Clear</button>
+          <button id="makeReply" type="button">Make Reply Ideas</button>
+          <button id="copyReply" type="button">Copy</button>
+          <button id="clearReply" type="button">Clear</button>
         </div>
       </article>
 
-      <!-- WARNINGS -->
       <article class="tool-panel" id="warnings">
-        <h2>Writing Warnings</h2>
-
-        <textarea id="warningInput" placeholder="Paste your draft to check spelling, grammar, citations..."></textarea>
-
-        <div class="actions">
-          <button id="checkDraft">Check Draft</button>
-          <button id="clearWarnings">Clear</button>
-        </div>
-
+        <h2>Spelling, Grammar & Citation Warnings</h2>
+        <textarea id="warningInput" placeholder="Paste your draft here to check for grammar, citation, and writing issues..."></textarea>
         <textarea id="warningOutput" readonly placeholder="Warnings will appear here..."></textarea>
+        <div class="actions">
+          <button id="checkDraft" type="button">Check Draft</button>
+          <button id="clearWarnings" type="button">Clear</button>
+        </div>
       </article>
 
-      <!-- CITATIONS -->
       <article class="tool-panel" id="citations">
         <h2>Citation Helper</h2>
-
-        <input id="citeAuthor" placeholder="Author">
+        <input id="citeAuthor" placeholder="Author: Last, First">
         <input id="citeTitle" placeholder="Title">
-        <input id="citeSource" placeholder="Source">
+        <input id="citeSource" placeholder="Source / Website / Journal">
         <input id="citeYear" placeholder="Year">
         <input id="citeURL" placeholder="URL">
-
-        <div class="actions">
-          <button id="makeAPA">Make APA</button>
-          <button id="makeBluebook">Make Bluebook</button>
-          <button id="clearCitations">Clear</button>
-        </div>
-
         <textarea id="citationOutput" readonly placeholder="Citation will appear here..."></textarea>
+        <div class="actions">
+          <button id="makeAPA" type="button">Make APA</button>
+          <button id="makeBluebook" type="button">Make Bluebook</button>
+          <button id="clearCitations" type="button">Clear</button>
+        </div>
       </article>
 
-      <!-- APA PAPER -->
       <article class="tool-panel" id="apaPaper">
         <h2>APA 7 Paper Formatter</h2>
-
         <input id="paperTitle" placeholder="Paper Title">
         <input id="studentName" placeholder="Your Name">
         <input id="schoolName" placeholder="School Name">
         <input id="courseName" placeholder="Course Name">
         <input id="instructorName" placeholder="Instructor Name">
         <input id="dueDate" placeholder="Due Date">
-
-        <textarea id="paperBody" placeholder="Paste your paper body here..."></textarea>
+        <textarea id="paperBody" placeholder="Paste paper body here..."></textarea>
         <textarea id="paperReferences" placeholder="Paste references here..."></textarea>
-
-        <div class="actions">
-          <button id="formatAPA">Format APA Paper</button>
-          <button id="copyAPAPaper">Copy</button>
-          <button id="clearAPAPaper">Clear</button>
-        </div>
-
         <textarea id="apaPaperOutput" readonly placeholder="APA formatted paper will appear here..."></textarea>
+        <div class="actions">
+          <button id="formatAPA" type="button">Format APA Paper</button>
+          <button id="copyAPAPaper" type="button">Copy</button>
+          <button id="clearAPAPaper" type="button">Clear</button>
+        </div>
       </article>
 
-      <!-- PROFESSOR MODE -->
       <article class="tool-panel" id="professor">
         <h2>Professor Mode</h2>
-
         <textarea id="profRules" placeholder="Example:
 APA only
 Bluebook only
 2 paragraph minimum
-Use citations in every response"></textarea>
+Use citations in every post"></textarea>
+        <textarea id="rulesStatus" readonly placeholder="Saved professor rules will appear here..."></textarea>
+        <div class="actions">
+          <button id="saveRules" type="button">Save Rules</button>
+          <button id="clearRules" type="button">Clear</button>
+        </div>
+      </article>
+
+      <article class="tool-panel" id="studyCards">
+        <h2>Study Cards</h2>
+        <input id="cardClass" placeholder="Class name">
+        <input id="cardChapter" placeholder="Chapter / Unit">
+        <input id="cardTerm" placeholder="Term or concept">
+        <textarea id="cardNotes" placeholder="Definition or notes"></textarea>
+        <textarea id="cardExample" placeholder="Example"></textarea>
+        <textarea id="cardQuestion" placeholder="Practice question"></textarea>
+        <textarea id="cardAnswer" placeholder="Answer"></textarea>
 
         <div class="actions">
-          <button id="saveRules">Save Rules</button>
-          <button id="clearRules">Clear</button>
+          <button id="addStudyCard" type="button">Add Card</button>
+          <button id="clearStudyCardForm" type="button">Clear Form</button>
+          <button id="clearAllStudyCards" type="button">Clear All Cards</button>
         </div>
 
-        <textarea id="rulesStatus" readonly placeholder="Saved rules will appear here..."></textarea>
+        <div id="studyCardList" class="output-box"></div>
       </article>
 
     </section>
