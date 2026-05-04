@@ -3,37 +3,66 @@ let citations = JSON.parse(localStorage.getItem("citations")) || [];
 let cards = JSON.parse(localStorage.getItem("cards")) || [];
 let notes = JSON.parse(localStorage.getItem("notes")) || [];
 
-function openTab(tabId, button) {
-  document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
-  document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
-
-  document.getElementById(tabId).classList.add("active");
-  button.classList.add("active");
-}
-
-function openTabById(tabId) {
-  const buttonMap = {
-    dashboard: 0,
-    assignments: 1,
-    apa: 2,
-    discussion: 3,
-    citations: 4,
-    cards: 5,
-    notes: 6
-  };
-
-  document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
-  document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
-
-  document.getElementById(tabId).classList.add("active");
-  document.querySelectorAll(".tab-btn")[buttonMap[tabId]].classList.add("active");
-}
-
 function saveAll() {
   localStorage.setItem("assignments", JSON.stringify(assignments));
   localStorage.setItem("citations", JSON.stringify(citations));
   localStorage.setItem("cards", JSON.stringify(cards));
   localStorage.setItem("notes", JSON.stringify(notes));
+}
+
+function openTab(tabId, button) {
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.classList.remove("active");
+  });
+
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  const selectedTab = document.getElementById(tabId);
+
+  if (selectedTab) {
+    selectedTab.classList.add("active");
+  }
+
+  if (button) {
+    button.classList.add("active");
+  }
+}
+
+function openTabById(tabId) {
+  const selectedTab = document.getElementById(tabId);
+
+  if (!selectedTab) {
+    return;
+  }
+
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.classList.remove("active");
+  });
+
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  selectedTab.classList.add("active");
+
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    const text = btn.textContent.toLowerCase();
+
+    if (
+      text.includes(tabId) ||
+      (tabId === "apa" && text.includes("apa")) ||
+      (tabId === "cards" && text.includes("study")) ||
+      (tabId === "notes" && text.includes("notes")) ||
+      (tabId === "dashboard" && text.includes("dashboard")) ||
+      (tabId === "assignments" && text.includes("assignments")) ||
+      (tabId === "discussion" && text.includes("discussion")) ||
+      (tabId === "citations" && text.includes("citations"))
+    ) {
+      btn.classList.add("active");
+    }
+  });
 }
 
 function addAssignment() {
@@ -64,6 +93,8 @@ function addAssignment() {
 function renderAssignments() {
   const list = document.getElementById("assignmentList");
 
+  if (!list) return;
+
   if (assignments.length === 0) {
     list.innerHTML = "<p class='small'>No assignments saved yet.</p>";
     return;
@@ -77,9 +108,8 @@ function renderAssignments() {
       <p><b>Priority:</b> ${a.priority}</p>
       <p><b>Status:</b> ${a.status}</p>
       <p><b>Notes:</b> ${a.notes || "None"}</p>
-
-      <button class="action green" onclick="markAssignmentDone(${index})">Mark Completed</button>
-      <button class="action danger" onclick="deleteAssignment(${index})">Delete</button>
+      <button class="action green" type="button" onclick="markAssignmentDone(${index})">Mark Completed</button>
+      <button class="action danger" type="button" onclick="deleteAssignment(${index})">Delete</button>
     </div>
   `).join("");
 }
@@ -106,8 +136,8 @@ function generateAPA() {
   const conclusion = document.getElementById("apaConclusion").value;
   const references = document.getElementById("apaReferences").value;
 
-  const outline = `
-APA 7 Paper Outline
+  const outline =
+`APA 7 Paper Outline
 
 Title:
 ${title || "[Enter your title]"}
@@ -116,7 +146,7 @@ Thesis Statement:
 ${thesis || "[Add your thesis statement]"}
 
 Introduction:
-${intro || "[Add background information and introduce the main issue]"}
+${intro || "[Add background information and opening ideas]"}
 
 Body Paragraph 1:
 ${body1 || "[Add your first major point with citation support]"}
@@ -138,8 +168,7 @@ APA Reminders:
 - Do not leave citations until the end of a paragraph if multiple source ideas are used.
 
 References:
-${references || "[Add APA references here]"}
-`;
+${references || "[Add APA references here]"}`;
 
   document.getElementById("apaOutput").textContent = outline;
   localStorage.setItem("apaOutput", outline);
@@ -152,8 +181,8 @@ function generateDiscussion() {
   const personal = document.getElementById("discussionPersonal").value;
   const sources = document.getElementById("discussionSources").value;
 
-  const draft = `
-Class:
+  const draft =
+`Class:
 ${className || "[Class name]"}
 
 Discussion Draft:
@@ -168,8 +197,7 @@ Source / Citation Notes:
 ${sources || "[Add APA citations or source notes here]"}
 
 Reply Question:
-How do you think this issue would change if the facts were slightly different?
-`;
+How do you think this issue would change if the facts were slightly different?`;
 
   document.getElementById("discussionOutput").textContent = draft;
   localStorage.setItem("discussionOutput", draft);
@@ -204,6 +232,8 @@ function addCitation() {
 function renderCitations() {
   const list = document.getElementById("citationList");
 
+  if (!list) return;
+
   if (citations.length === 0) {
     list.innerHTML = "<p class='small'>No citations saved yet.</p>";
     return;
@@ -214,8 +244,7 @@ function renderCitations() {
       <strong>${c.type}</strong>
       <p>${c.author || "Unknown author"} (${c.year || "n.d."}). <i>${c.title || "Untitled"}</i>. ${c.source || ""}</p>
       <p class="small">${c.url || ""}</p>
-
-      <button class="action danger" onclick="deleteCitation(${index})">Delete</button>
+      <button class="action danger" type="button" onclick="deleteCitation(${index})">Delete</button>
     </div>
   `).join("");
 }
@@ -250,6 +279,8 @@ function addCard() {
 function renderCards() {
   const list = document.getElementById("cardList");
 
+  if (!list) return;
+
   if (cards.length === 0) {
     list.innerHTML = "<p class='small'>No study cards saved yet.</p>";
     return;
@@ -265,14 +296,12 @@ function renderCards() {
               <p>${card.front}</p>
             </div>
           </div>
-
           <div class="flip-back">
             <p>${card.back}</p>
           </div>
         </div>
       </div>
-
-      <button class="action danger" onclick="deleteCard(event, ${index})">Delete</button>
+      <button class="action danger" type="button" onclick="deleteCard(event, ${index})">Delete</button>
     </div>
   `).join("");
 }
@@ -312,6 +341,8 @@ function renderNotes() {
   const searchInput = document.getElementById("noteSearch");
   const search = searchInput ? searchInput.value.toLowerCase() : "";
 
+  if (!list) return;
+
   const filtered = notes.filter(n =>
     (n.className || "").toLowerCase().includes(search) ||
     (n.unit || "").toLowerCase().includes(search) ||
@@ -330,8 +361,7 @@ function renderNotes() {
       <p><b>Class:</b> ${n.className || "N/A"}</p>
       <p><b>Unit:</b> ${n.unit || "N/A"}</p>
       <p>${n.text}</p>
-
-      <button class="action danger" onclick="deleteNote(${index})">Delete</button>
+      <button class="action danger" type="button" onclick="deleteNote(${index})">Delete</button>
     </div>
   `).join("");
 }
@@ -351,7 +381,6 @@ function clearData(type) {
   if (type === "notes") notes = [];
 
   saveAll();
-
   renderAssignments();
   renderCitations();
   renderCards();
@@ -359,7 +388,11 @@ function clearData(type) {
 }
 
 function clearOutput(id) {
-  document.getElementById(id).textContent = "";
+  const output = document.getElementById(id);
+
+  if (output) {
+    output.textContent = "";
+  }
 
   if (id === "apaOutput") {
     localStorage.removeItem("apaOutput");
@@ -370,7 +403,7 @@ function clearOutput(id) {
   }
 }
 
-window.onload = function () {
+function startApp() {
   renderAssignments();
   renderCitations();
   renderCards();
@@ -379,11 +412,30 @@ window.onload = function () {
   const savedAPA = localStorage.getItem("apaOutput");
   const savedDiscussion = localStorage.getItem("discussionOutput");
 
-  if (savedAPA) {
+  if (savedAPA && document.getElementById("apaOutput")) {
     document.getElementById("apaOutput").textContent = savedAPA;
   }
 
-  if (savedDiscussion) {
+  if (savedDiscussion && document.getElementById("discussionOutput")) {
     document.getElementById("discussionOutput").textContent = savedDiscussion;
   }
-};
+}
+
+window.openTab = openTab;
+window.openTabById = openTabById;
+window.addAssignment = addAssignment;
+window.markAssignmentDone = markAssignmentDone;
+window.deleteAssignment = deleteAssignment;
+window.generateAPA = generateAPA;
+window.generateDiscussion = generateDiscussion;
+window.addCitation = addCitation;
+window.deleteCitation = deleteCitation;
+window.addCard = addCard;
+window.deleteCard = deleteCard;
+window.addNote = addNote;
+window.deleteNote = deleteNote;
+window.clearData = clearData;
+window.clearOutput = clearOutput;
+window.renderNotes = renderNotes;
+
+document.addEventListener("DOMContentLoaded", startApp);
