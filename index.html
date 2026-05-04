@@ -3,291 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Legal Study Helper</title>
 
-  <style>
-    :root {
-      --bg: #f5f3ff;
-      --card: #ffffff;
-      --primary: #6d28d9;
-      --primary-dark: #4c1d95;
-      --accent: #22c55e;
-      --soft: #ede9fe;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --danger: #dc2626;
-      --border: #ddd6fe;
-      --shadow: 0 10px 25px rgba(76, 29, 149, 0.15);
-    }
-
-    * {
-      box-sizing: border-box;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    body {
-      margin: 0;
-      background: linear-gradient(135deg, #ede9fe, #fdf2f8, #ecfdf5);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    header {
-      background: linear-gradient(135deg, var(--primary), #9333ea, #16a34a);
-      color: white;
-      padding: 28px 20px;
-      text-align: center;
-      box-shadow: var(--shadow);
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 2.2rem;
-      letter-spacing: 0.5px;
-    }
-
-    header p {
-      margin: 8px 0 0;
-      font-size: 1rem;
-      opacity: 0.95;
-    }
-
-    .container {
-      width: min(1200px, 94%);
-      margin: 24px auto;
-    }
-
-    .tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 22px;
-      justify-content: center;
-    }
-
-    .tab-btn {
-      border: none;
-      padding: 12px 16px;
-      border-radius: 999px;
-      background: white;
-      color: var(--primary-dark);
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: var(--shadow);
-      transition: 0.2s ease;
-    }
-
-    .tab-btn:hover,
-    .tab-btn.active {
-      background: var(--primary);
-      color: white;
-      transform: translateY(-2px);
-    }
-
-    .tab {
-      display: none;
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 24px;
-      box-shadow: var(--shadow);
-      margin-bottom: 30px;
-    }
-
-    .tab.active {
-      display: block;
-    }
-
-    h2 {
-      color: var(--primary-dark);
-      margin-top: 0;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 18px;
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 18px;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
-    }
-
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 12px;
-      margin-bottom: 5px;
-      color: var(--primary-dark);
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      padding: 11px;
-      border-radius: 12px;
-      border: 1px solid #c4b5fd;
-      background: white;
-      color: var(--text);
-      font-size: 0.95rem;
-    }
-
-    textarea {
-      min-height: 95px;
-      resize: vertical;
-    }
-
-    button.action {
-      margin-top: 14px;
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 12px 16px;
-      border-radius: 14px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s ease;
-    }
-
-    button.action:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-    }
-
-    button.green {
-      background: var(--accent);
-    }
-
-    button.green:hover {
-      background: #15803d;
-    }
-
-    button.danger {
-      background: var(--danger);
-    }
-
-    button.danger:hover {
-      background: #991b1b;
-    }
-
-    .output {
-      margin-top: 18px;
-      padding: 15px;
-      background: var(--soft);
-      border-radius: 15px;
-      border-left: 5px solid var(--primary);
-      white-space: pre-wrap;
-    }
-
-    .item {
-      background: white;
-      padding: 14px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      margin-top: 12px;
-    }
-
-    .item strong {
-      color: var(--primary-dark);
-    }
-
-    .small {
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    .dashboard-card {
-      cursor: pointer;
-      transition: 0.2s ease;
-      border-top: 5px solid var(--primary);
-    }
-
-    .dashboard-card:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow);
-    }
-
-    .flashcards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      margin-top: 18px;
-    }
-
-    .flip-card {
-      perspective: 1000px;
-      height: 170px;
-      cursor: pointer;
-    }
-
-    .flip-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.7s;
-      transform-style: preserve-3d;
-    }
-
-    .flip-card.flipped .flip-inner {
-      transform: rotateY(180deg);
-    }
-
-    .flip-front,
-    .flip-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 18px;
-      padding: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
-    }
-
-    .flip-front {
-      background: linear-gradient(135deg, #ffffff, #ede9fe);
-      color: var(--primary-dark);
-      font-weight: bold;
-    }
-
-    .flip-back {
-      background: linear-gradient(135deg, #dcfce7, #f0fdf4);
-      color: #14532d;
-      transform: rotateY(180deg);
-    }
-
-    .top-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 16px;
-    }
-
-    @media print {
-      .tabs, .tab-btn, button, header {
-        display: none !important;
-      }
-
-      .tab {
-        display: block !important;
-        box-shadow: none;
-        border: none;
-      }
-
-      body {
-        background: white;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
@@ -356,30 +75,30 @@
 
       <div class="grid">
         <div class="card">
-          <label>Class Name</label>
+          <label for="assignmentClass">Class Name</label>
           <input id="assignmentClass" placeholder="Example: Civil Litigation" />
 
-          <label>Assignment Title</label>
+          <label for="assignmentTitle">Assignment Title</label>
           <input id="assignmentTitle" placeholder="Example: Unit 4 Discussion Board" />
 
-          <label>Due Date</label>
+          <label for="assignmentDue">Due Date</label>
           <input id="assignmentDue" type="date" />
 
-          <label>Priority</label>
+          <label for="assignmentPriority">Priority</label>
           <select id="assignmentPriority">
             <option>High</option>
             <option>Medium</option>
             <option>Low</option>
           </select>
 
-          <label>Status</label>
+          <label for="assignmentStatus">Status</label>
           <select id="assignmentStatus">
             <option>Not Started</option>
             <option>Working On It</option>
             <option>Completed</option>
           </select>
 
-          <label>Notes</label>
+          <label for="assignmentNotes">Notes</label>
           <textarea id="assignmentNotes" placeholder="Add professor requirements, citation rules, or reminders."></textarea>
 
           <button class="action" onclick="addAssignment()">Add Assignment</button>
@@ -399,28 +118,28 @@
 
       <div class="grid">
         <div class="card">
-          <label>Paper Title</label>
+          <label for="apaTitle">Paper Title</label>
           <input id="apaTitle" placeholder="Enter paper title" />
 
-          <label>Thesis Statement</label>
+          <label for="apaThesis">Thesis Statement</label>
           <textarea id="apaThesis" placeholder="What is your main argument?"></textarea>
 
-          <label>Introduction Notes</label>
+          <label for="apaIntro">Introduction Notes</label>
           <textarea id="apaIntro" placeholder="Background information and opening ideas."></textarea>
 
-          <label>Body Point 1</label>
+          <label for="apaBody1">Body Point 1</label>
           <textarea id="apaBody1"></textarea>
 
-          <label>Body Point 2</label>
+          <label for="apaBody2">Body Point 2</label>
           <textarea id="apaBody2"></textarea>
 
-          <label>Body Point 3</label>
+          <label for="apaBody3">Body Point 3</label>
           <textarea id="apaBody3"></textarea>
 
-          <label>Conclusion Notes</label>
+          <label for="apaConclusion">Conclusion Notes</label>
           <textarea id="apaConclusion"></textarea>
 
-          <label>References</label>
+          <label for="apaReferences">References</label>
           <textarea id="apaReferences" placeholder="Paste APA references here."></textarea>
 
           <button class="action" onclick="generateAPA()">Generate APA Outline</button>
@@ -429,6 +148,7 @@
         <div class="card">
           <h3>Generated APA Outline</h3>
           <div id="apaOutput" class="output">Your APA outline will appear here.</div>
+
           <div class="top-actions">
             <button class="action green" onclick="window.print()">Print / Save as PDF</button>
             <button class="action danger" onclick="clearOutput('apaOutput')">Clear Outline</button>
@@ -443,19 +163,19 @@
 
       <div class="grid">
         <div class="card">
-          <label>Class</label>
+          <label for="discussionClass">Class</label>
           <input id="discussionClass" placeholder="Example: Sociology" />
 
-          <label>Discussion Prompt</label>
+          <label for="discussionPrompt">Discussion Prompt</label>
           <textarea id="discussionPrompt"></textarea>
 
-          <label>Main Point</label>
+          <label for="discussionMain">Main Point</label>
           <textarea id="discussionMain"></textarea>
 
-          <label>Personal Connection</label>
+          <label for="discussionPersonal">Personal Connection</label>
           <textarea id="discussionPersonal"></textarea>
 
-          <label>Source / Citation Notes</label>
+          <label for="discussionSources">Source / Citation Notes</label>
           <textarea id="discussionSources" placeholder="Add source details or APA citation notes."></textarea>
 
           <button class="action" onclick="generateDiscussion()">Generate Discussion Post</button>
@@ -464,6 +184,7 @@
         <div class="card">
           <h3>Generated Discussion Draft</h3>
           <div id="discussionOutput" class="output">Your discussion post will appear here.</div>
+
           <div class="top-actions">
             <button class="action green" onclick="window.print()">Print / Save as PDF</button>
             <button class="action danger" onclick="clearOutput('discussionOutput')">Clear Draft</button>
@@ -478,26 +199,26 @@
 
       <div class="grid">
         <div class="card">
-          <label>Citation Type</label>
+          <label for="citationType">Citation Type</label>
           <select id="citationType">
             <option>APA Source</option>
             <option>Legal Case</option>
             <option>Statute / Regulation</option>
           </select>
 
-          <label>Author / Case Name / Law Name</label>
+          <label for="citationAuthor">Author / Case Name / Law Name</label>
           <input id="citationAuthor" placeholder="Example: Smith OR Brown v. Board of Education" />
 
-          <label>Year</label>
+          <label for="citationYear">Year</label>
           <input id="citationYear" placeholder="Example: 2024" />
 
-          <label>Title / Reporter / Source</label>
+          <label for="citationTitle">Title / Reporter / Source</label>
           <input id="citationTitle" placeholder="Example: Legal Research Basics OR 347 U.S. 483" />
 
-          <label>Publisher / Court / Website</label>
+          <label for="citationSource">Publisher / Court / Website</label>
           <input id="citationSource" placeholder="Example: Cengage Learning OR U.S. Supreme Court" />
 
-          <label>URL</label>
+          <label for="citationURL">URL</label>
           <input id="citationURL" placeholder="https://..." />
 
           <button class="action" onclick="addCitation()">Add Citation</button>
@@ -517,13 +238,13 @@
 
       <div class="grid">
         <div class="card">
-          <label>Class / Topic</label>
+          <label for="cardTopic">Class / Topic</label>
           <input id="cardTopic" placeholder="Example: Civil Procedure" />
 
-          <label>Front of Card</label>
+          <label for="cardFront">Front of Card</label>
           <textarea id="cardFront" placeholder="Question, legal term, or concept."></textarea>
 
-          <label>Back of Card</label>
+          <label for="cardBack">Back of Card</label>
           <textarea id="cardBack" placeholder="Answer, rule, or definition."></textarea>
 
           <button class="action" onclick="addCard()">Add Study Card</button>
@@ -544,16 +265,16 @@
 
       <div class="grid">
         <div class="card">
-          <label>Class Name</label>
+          <label for="noteClass">Class Name</label>
           <input id="noteClass" placeholder="Example: Real Estate Law" />
 
-          <label>Unit / Chapter</label>
+          <label for="noteUnit">Unit / Chapter</label>
           <input id="noteUnit" placeholder="Example: Unit 6" />
 
-          <label>Topic</label>
+          <label for="noteTopic">Topic</label>
           <input id="noteTopic" placeholder="Example: Easements" />
 
-          <label>Notes</label>
+          <label for="noteText">Notes</label>
           <textarea id="noteText" placeholder="Type your class notes here."></textarea>
 
           <button class="action" onclick="addNote()">Save Note</button>
@@ -562,7 +283,7 @@
         <div class="card">
           <h3>Saved Notes</h3>
 
-          <label>Search Notes</label>
+          <label for="noteSearch">Search Notes</label>
           <input id="noteSearch" placeholder="Search by class, unit, topic, or note..." oninput="renderNotes()" />
 
           <div id="noteList"></div>
@@ -573,382 +294,6 @@
 
   </main>
 
-  <script>
-    let assignments = JSON.parse(localStorage.getItem("assignments")) || [];
-    let citations = JSON.parse(localStorage.getItem("citations")) || [];
-    let cards = JSON.parse(localStorage.getItem("cards")) || [];
-    let notes = JSON.parse(localStorage.getItem("notes")) || [];
-
-    function openTab(tabId, button) {
-      document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
-      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
-
-      document.getElementById(tabId).classList.add("active");
-      button.classList.add("active");
-    }
-
-    function openTabById(tabId) {
-      const buttonMap = {
-        dashboard: 0,
-        assignments: 1,
-        apa: 2,
-        discussion: 3,
-        citations: 4,
-        cards: 5,
-        notes: 6
-      };
-
-      document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
-      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
-
-      document.getElementById(tabId).classList.add("active");
-      document.querySelectorAll(".tab-btn")[buttonMap[tabId]].classList.add("active");
-    }
-
-    function saveAll() {
-      localStorage.setItem("assignments", JSON.stringify(assignments));
-      localStorage.setItem("citations", JSON.stringify(citations));
-      localStorage.setItem("cards", JSON.stringify(cards));
-      localStorage.setItem("notes", JSON.stringify(notes));
-    }
-
-    function addAssignment() {
-      const item = {
-        className: document.getElementById("assignmentClass").value,
-        title: document.getElementById("assignmentTitle").value,
-        due: document.getElementById("assignmentDue").value,
-        priority: document.getElementById("assignmentPriority").value,
-        status: document.getElementById("assignmentStatus").value,
-        notes: document.getElementById("assignmentNotes").value
-      };
-
-      if (!item.title.trim()) {
-        alert("Please enter an assignment title.");
-        return;
-      }
-
-      assignments.push(item);
-      saveAll();
-      renderAssignments();
-
-      document.getElementById("assignmentClass").value = "";
-      document.getElementById("assignmentTitle").value = "";
-      document.getElementById("assignmentDue").value = "";
-      document.getElementById("assignmentNotes").value = "";
-    }
-
-    function renderAssignments() {
-      const list = document.getElementById("assignmentList");
-
-      if (assignments.length === 0) {
-        list.innerHTML = "<p class='small'>No assignments saved yet.</p>";
-        return;
-      }
-
-      list.innerHTML = assignments.map((a, index) => `
-        <div class="item">
-          <strong>${a.title}</strong>
-          <p><b>Class:</b> ${a.className || "N/A"}</p>
-          <p><b>Due:</b> ${a.due || "No date entered"}</p>
-          <p><b>Priority:</b> ${a.priority}</p>
-          <p><b>Status:</b> ${a.status}</p>
-          <p><b>Notes:</b> ${a.notes || "None"}</p>
-          <button class="action green" onclick="markAssignmentDone(${index})">Mark Completed</button>
-          <button class="action danger" onclick="deleteAssignment(${index})">Delete</button>
-        </div>
-      `).join("");
-    }
-
-    function markAssignmentDone(index) {
-      assignments[index].status = "Completed";
-      saveAll();
-      renderAssignments();
-    }
-
-    function deleteAssignment(index) {
-      assignments.splice(index, 1);
-      saveAll();
-      renderAssignments();
-    }
-
-    function generateAPA() {
-      const title = document.getElementById("apaTitle").value;
-      const thesis = document.getElementById("apaThesis").value;
-      const intro = document.getElementById("apaIntro").value;
-      const body1 = document.getElementById("apaBody1").value;
-      const body2 = document.getElementById("apaBody2").value;
-      const body3 = document.getElementById("apaBody3").value;
-      const conclusion = document.getElementById("apaConclusion").value;
-      const references = document.getElementById("apaReferences").value;
-
-      const outline = `
-APA 7 Paper Outline
-
-Title:
-${title || "[Enter your title]"}
-
-Thesis Statement:
-${thesis || "[Add your thesis statement]"}
-
-Introduction:
-${intro || "[Add background information and introduce the main issue]"}
-
-Body Paragraph 1:
-${body1 || "[Add your first major point with citation support]"}
-
-Body Paragraph 2:
-${body2 || "[Add your second major point with citation support]"}
-
-Body Paragraph 3:
-${body3 || "[Add your third major point with citation support]"}
-
-Conclusion:
-${conclusion || "[Restate your thesis and explain why the issue matters]"}
-
-APA Reminders:
-- Use double spacing.
-- Use 1-inch margins.
-- Include in-text citations when using source ideas.
-- Include a reference list.
-- Do not leave citations until the end of a paragraph if multiple source ideas are used.
-
-References:
-${references || "[Add APA references here]"}
-      `;
-
-      document.getElementById("apaOutput").textContent = outline;
-      localStorage.setItem("apaOutput", outline);
-    }
-
-    function generateDiscussion() {
-      const className = document.getElementById("discussionClass").value;
-      const prompt = document.getElementById("discussionPrompt").value;
-      const main = document.getElementById("discussionMain").value;
-      const personal = document.getElementById("discussionPersonal").value;
-      const sources = document.getElementById("discussionSources").value;
-
-      const draft = `
-Class:
-${className || "[Class name]"}
-
-Discussion Draft:
-
-The main issue in this discussion is ${prompt || "[state the issue from the prompt]"}. My view is that ${main || "[state your main point clearly]"}.
-
-One reason this matters is that legal and social issues usually affect real people, not just rules on paper. ${personal || "[add your personal connection or example here]"}
-
-Based on the course material and outside research, this topic connects to the larger point that students need to explain not only what the rule or concept says, but also why it matters in practice.
-
-Source / Citation Notes:
-${sources || "[Add APA citations or source notes here]"}
-
-Reply Question:
-How do you think this issue would change if the facts were slightly different?
-      `;
-
-      document.getElementById("discussionOutput").textContent = draft;
-      localStorage.setItem("discussionOutput", draft);
-    }
-
-    function addCitation() {
-      const item = {
-        type: document.getElementById("citationType").value,
-        author: document.getElementById("citationAuthor").value,
-        year: document.getElementById("citationYear").value,
-        title: document.getElementById("citationTitle").value,
-        source: document.getElementById("citationSource").value,
-        url: document.getElementById("citationURL").value
-      };
-
-      if (!item.author.trim() && !item.title.trim()) {
-        alert("Please enter at least an author, case name, title, or source.");
-        return;
-      }
-
-      citations.push(item);
-      saveAll();
-      renderCitations();
-
-      document.getElementById("citationAuthor").value = "";
-      document.getElementById("citationYear").value = "";
-      document.getElementById("citationTitle").value = "";
-      document.getElementById("citationSource").value = "";
-      document.getElementById("citationURL").value = "";
-    }
-
-    function renderCitations() {
-      const list = document.getElementById("citationList");
-
-      if (citations.length === 0) {
-        list.innerHTML = "<p class='small'>No citations saved yet.</p>";
-        return;
-      }
-
-      list.innerHTML = citations.map((c, index) => `
-        <div class="item">
-          <strong>${c.type}</strong>
-          <p>${c.author || "Unknown author"} (${c.year || "n.d."}). <i>${c.title || "Untitled"}</i>. ${c.source || ""}</p>
-          <p class="small">${c.url || ""}</p>
-          <button class="action danger" onclick="deleteCitation(${index})">Delete</button>
-        </div>
-      `).join("");
-    }
-
-    function deleteCitation(index) {
-      citations.splice(index, 1);
-      saveAll();
-      renderCitations();
-    }
-
-    function addCard() {
-      const item = {
-        topic: document.getElementById("cardTopic").value,
-        front: document.getElementById("cardFront").value,
-        back: document.getElementById("cardBack").value
-      };
-
-      if (!item.front.trim() || !item.back.trim()) {
-        alert("Please enter both the front and back of the card.");
-        return;
-      }
-
-      cards.push(item);
-      saveAll();
-      renderCards();
-
-      document.getElementById("cardTopic").value = "";
-      document.getElementById("cardFront").value = "";
-      document.getElementById("cardBack").value = "";
-    }
-
-    function renderCards() {
-      const list = document.getElementById("cardList");
-
-      if (cards.length === 0) {
-        list.innerHTML = "<p class='small'>No study cards saved yet.</p>";
-        return;
-      }
-
-      list.innerHTML = cards.map((card, index) => `
-        <div>
-          <div class="flip-card" onclick="this.classList.toggle('flipped')">
-            <div class="flip-inner">
-              <div class="flip-front">
-                <div>
-                  <p class="small">${card.topic || "Study Card"}</p>
-                  <p>${card.front}</p>
-                </div>
-              </div>
-              <div class="flip-back">
-                <p>${card.back}</p>
-              </div>
-            </div>
-          </div>
-          <button class="action danger" onclick="deleteCard(event, ${index})">Delete</button>
-        </div>
-      `).join("");
-    }
-
-    function deleteCard(event, index) {
-      event.stopPropagation();
-      cards.splice(index, 1);
-      saveAll();
-      renderCards();
-    }
-
-    function addNote() {
-      const item = {
-        className: document.getElementById("noteClass").value,
-        unit: document.getElementById("noteUnit").value,
-        topic: document.getElementById("noteTopic").value,
-        text: document.getElementById("noteText").value
-      };
-
-      if (!item.text.trim()) {
-        alert("Please enter note text.");
-        return;
-      }
-
-      notes.push(item);
-      saveAll();
-      renderNotes();
-
-      document.getElementById("noteClass").value = "";
-      document.getElementById("noteUnit").value = "";
-      document.getElementById("noteTopic").value = "";
-      document.getElementById("noteText").value = "";
-    }
-
-    function renderNotes() {
-      const list = document.getElementById("noteList");
-      const search = document.getElementById("noteSearch") ? document.getElementById("noteSearch").value.toLowerCase() : "";
-
-      const filtered = notes.filter(n =>
-        n.className.toLowerCase().includes(search) ||
-        n.unit.toLowerCase().includes(search) ||
-        n.topic.toLowerCase().includes(search) ||
-        n.text.toLowerCase().includes(search)
-      );
-
-      if (filtered.length === 0) {
-        list.innerHTML = "<p class='small'>No matching notes saved yet.</p>";
-        return;
-      }
-
-      list.innerHTML = filtered.map((n, index) => `
-        <div class="item">
-          <strong>${n.topic || "Untitled Note"}</strong>
-          <p><b>Class:</b> ${n.className || "N/A"}</p>
-          <p><b>Unit:</b> ${n.unit || "N/A"}</p>
-          <p>${n.text}</p>
-          <button class="action danger" onclick="deleteNote(${index})">Delete</button>
-        </div>
-      `).join("");
-    }
-
-    function deleteNote(index) {
-      notes.splice(index, 1);
-      saveAll();
-      renderNotes();
-    }
-
-    function clearData(type) {
-      if (!confirm("Are you sure you want to clear this section?")) return;
-
-      if (type === "assignments") assignments = [];
-      if (type === "citations") citations = [];
-      if (type === "cards") cards = [];
-      if (type === "notes") notes = [];
-
-      saveAll();
-      renderAssignments();
-      renderCitations();
-      renderCards();
-      renderNotes();
-    }
-
-    function clearOutput(id) {
-      document.getElementById(id).textContent = "";
-      localStorage.removeItem(id);
-    }
-
-    window.onload = function () {
-      renderAssignments();
-      renderCitations();
-      renderCards();
-      renderNotes();
-
-      const savedAPA = localStorage.getItem("apaOutput");
-      const savedDiscussion = localStorage.getItem("discussionOutput");
-
-      if (savedAPA) {
-        document.getElementById("apaOutput").textContent = savedAPA;
-      }
-
-      if (savedDiscussion) {
-        document.getElementById("discussionOutput").textContent = savedDiscussion;
-      }
-    };
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
