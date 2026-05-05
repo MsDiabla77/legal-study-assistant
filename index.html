@@ -13,154 +13,158 @@
   <header class="hero">
     <div class="hero-content">
       <h1>⚖️ Legal Study Helper</h1>
-      <p>Translate legal wording, track assignments, save notes, build APA outlines, check writing, and study smarter.</p>
+      <p>Plain-English legal help, professor rules, study cards, class notes, discussion ideas, APA help, and assignment tracking.</p>
     </div>
   </header>
 
   <main class="container">
     <nav class="tabs">
-      <button class="tab-btn active" type="button" onclick="openTab('dashboard', this)">Dashboard</button>
-      <button class="tab-btn" type="button" onclick="openTab('translator', this)">Translator</button>
-      <button class="tab-btn" type="button" onclick="openTab('testmode', this)">Test Me</button>
-      <button class="tab-btn" type="button" onclick="openTab('professor', this)">Professor Mode</button>
-      <button class="tab-btn" type="button" onclick="openTab('grammar', this)">Grammar Check</button>
-      <button class="tab-btn" type="button" onclick="openTab('assignments', this)">Assignments</button>
-      <button class="tab-btn" type="button" onclick="openTab('notes', this)">Class Notes</button>
-      <button class="tab-btn" type="button" onclick="openTab('apa', this)">APA Paper</button>
-      <button class="tab-btn" type="button" onclick="openTab('discussion', this)">Discussion</button>
-      <button class="tab-btn" type="button" onclick="openTab('citations', this)">Citations</button>
-      <button class="tab-btn" type="button" onclick="openTab('cards', this)">Study Cards</button>
+      <button class="tab-btn active" type="button" data-tab="dashboard">Dashboard</button>
+      <button class="tab-btn" type="button" data-tab="translator">Translator</button>
+      <button class="tab-btn" type="button" data-tab="test">Test Me</button>
+      <button class="tab-btn" type="button" data-tab="professor">Professor Mode</button>
+      <button class="tab-btn" type="button" data-tab="grammar">Grammar Check</button>
+      <button class="tab-btn" type="button" data-tab="assignments">Assignments</button>
+      <button class="tab-btn" type="button" data-tab="notes">Class Notes</button>
+      <button class="tab-btn" type="button" data-tab="flashcards">Flash Cards</button>
+      <button class="tab-btn" type="button" data-tab="discussion">Discussion Ideas</button>
+      <button class="tab-btn" type="button" data-tab="apa">APA Paper</button>
+      <button class="tab-btn" type="button" data-tab="citations">Citations</button>
     </nav>
 
     <!-- DASHBOARD -->
     <section id="dashboard" class="tab active">
       <h2>Dashboard</h2>
-      <p class="small">Choose a tool below. Everything saves in your browser unless you clear it.</p>
+      <p class="small">Pick a tool below. Your entries save in your browser using local storage.</p>
 
-      <div class="grid">
-        <div class="card dashboard-card" onclick="openTabById('translator')">
-          <h3>⚖️ Legal Translator</h3>
-          <p>Turn legal wording into plain English for class notes and discussion boards.</p>
+      <div class="grid dashboard-grid">
+        <div class="card dashboard-card" data-open="translator">
+          <h3>⚖️ Plain-English Translator</h3>
+          <p>Break down legal wording into plain English, why it matters, and real-life examples.</p>
         </div>
 
-        <div class="card dashboard-card" onclick="openTabById('testmode')">
-  <h3>🧠 Test Me</h3>
-  <p>Quiz yourself on legal terms, rules, citations, APA basics, and class concepts.</p>
-</div>
+        <div class="card dashboard-card" data-open="test">
+          <h3>🧠 Test Me</h3>
+          <p>Quiz yourself using translator text, saved notes, flash cards, and built-in law questions.</p>
         </div>
-    
 
-        <div class="card dashboard-card" onclick="openTabById('professor')">
+        <div class="card dashboard-card" data-open="professor">
           <h3>🎓 Professor Mode</h3>
-          <p>Save professor rules, citation style, deadlines, reply rules, and grading reminders.</p>
+          <p>Save professor rules, citation format, deadlines, reply requirements, and grading reminders.</p>
         </div>
 
-        <div class="card dashboard-card" onclick="openTabById('grammar')">
+        <div class="card dashboard-card" data-open="grammar">
           <h3>✅ Grammar Check</h3>
-          <p>Check spelling, grammar, citation reminders, and professional writing issues.</p>
+          <p>Check for writing problems, citation reminders, and school/professional tone issues.</p>
         </div>
 
-        <div class="card dashboard-card" onclick="openTabById('assignments')">
+        <div class="card dashboard-card" data-open="assignments">
           <h3>📌 Assignment Tracker</h3>
-          <p>Track class assignments, due dates, priority, status, and notes.</p>
+          <p>Track assignments by class, due date, priority, status, and notes.</p>
         </div>
 
-        <div class="card dashboard-card" onclick="openTabById('notes')">
+        <div class="card dashboard-card" data-open="notes">
           <h3>📖 Class Notes</h3>
-          <p>Save searchable notes by class, unit, chapter, or topic.</p>
+          <p>Save searchable notes by class, unit, chapter, topic, or professor reminder.</p>
         </div>
 
-        <div class="card dashboard-card" onclick="openTabById('apa')">
+        <div class="card dashboard-card" data-open="flashcards">
+          <h3>🃏 Flash Cards</h3>
+          <p>Create flip cards for legal terms, cases, rules, citations, and class concepts.</p>
+        </div>
+
+        <div class="card dashboard-card" data-open="discussion">
+          <h3>💬 Discussion Ideas</h3>
+          <p>Generate topic angles and reply ideas instead of writing the whole post for you.</p>
+        </div>
+
+        <div class="card dashboard-card" data-open="apa">
           <h3>📝 APA Paper Helper</h3>
-          <p>Create a basic APA-style outline and formatting reminder.</p>
+          <p>Build an APA-style outline with title, thesis, body points, conclusion, and references.</p>
         </div>
 
-        <div class="card dashboard-card" onclick="openTabById('discussion')">
-          <h3>💬 Discussion Helper</h3>
-          <p>Build a discussion post draft with main points, personal connection, and source notes.</p>
-        </div>
-
-        <div class="card dashboard-card" onclick="openTabById('citations')">
+        <div class="card dashboard-card" data-open="citations">
           <h3>📚 Citation Helper</h3>
-          <p>Save APA sources, cases, statutes, regulations, and citation notes.</p>
-        </div>
-
-        <div class="card dashboard-card" onclick="openTabById('cards')">
-          <h3>🃏 Study Cards</h3>
-          <p>Create flip cards for legal terms, cases, rules, and definitions.</p>
+          <p>Save APA sources, legal cases, statutes, regulations, websites, and citation notes.</p>
         </div>
       </div>
 
       <div class="top-actions">
-        <button class="action green" type="button" onclick="window.print()">Print / Save as PDF</button>
-        <button class="action danger" type="button" onclick="clearEverything()">Clear All Saved Data</button>
+        <button class="action green" type="button" id="printPageBtn">Print / Save as PDF</button>
+        <button class="action danger" type="button" id="clearEverythingBtn">Clear All Saved Data</button>
       </div>
     </section>
 
     <!-- TRANSLATOR -->
-  <!-- TRANSLATOR -->
-<section id="translator" class="tab">
-  <h2>Plain-English Legal Translator</h2>
+    <section id="translator" class="tab">
+      <h2>Plain-English Legal Translator</h2>
+      <p class="small">Paste legal wording, assignment wording, statute language, case language, or a confusing paragraph.</p>
 
-  <div class="grid">
-    <div class="card">
-      <label for="legalInput">Paste Legal Text</label>
-      <textarea id="legalInput" placeholder="Paste legal wording, statute language, court wording, assignment wording, or a legal paragraph here."></textarea>
+      <div class="grid">
+        <div class="card">
+          <label for="legalInput">Legal Text</label>
+          <textarea id="legalInput" placeholder="Paste legal text here..."></textarea>
 
-      <label for="translatorLevel">Translation Style</label>
-      <select id="translatorLevel">
-        <option value="full">Plain English + Why It Matters + Real Life Example</option>
-        <option value="simple">Simple Plain English</option>
-        <option value="student">Law Student Notes</option>
-        <option value="discussion">Discussion Post Explanation</option>
-      </select>
+          <label for="translatorStyle">Output Style</label>
+          <select id="translatorStyle">
+            <option value="full">Plain English + Why It Matters + Real-Life Example</option>
+            <option value="simple">Simple Plain English</option>
+            <option value="student">Law Student Notes</option>
+            <option value="discussion">Discussion Explanation</option>
+          </select>
 
-      <button class="action" type="button" onclick="translateLegalText()">Translate</button>
-      <button class="action danger" type="button" onclick="clearTranslator()">Clear</button>
-    </div>
+          <button class="action" type="button" id="translateBtn">Translate</button>
+          <button class="action green" type="button" id="saveTranslatorToNotesBtn">Save Translation to Class Notes</button>
+          <button class="action danger" type="button" id="clearTranslatorBtn">Clear</button>
+        </div>
 
-    <div class="card">
-      <h3>Translation</h3>
-      <div id="translatorOutput" class="output">Your plain-English explanation will appear here.</div>
-    </div>
-  </div>
-</section>
-    <!-- TEST MODE -->
-<section id="testmode" class="tab">
-  <h2>Test Me</h2>
+        <div class="card">
+          <h3>Translation</h3>
+          <div id="translatorOutput" class="output">Your plain-English explanation will appear here.</div>
+        </div>
+      </div>
+    </section>
 
-  <div class="grid">
-    <div class="card">
-      <label for="testTopic">Test Topic</label>
-      <select id="testTopic">
-        <option value="legalTerms">Legal Terms</option>
-        <option value="apa">APA Basics</option>
-        <option value="citations">Citation Rules</option>
-        <option value="civil">Civil Litigation</option>
-        <option value="realestate">Real Estate Law</option>
-      </select>
+    <!-- TEST ME -->
+    <section id="test" class="tab">
+      <h2>Test Me</h2>
+      <p class="small">This pulls from your translator, class notes, flash cards, and built-in study questions.</p>
 
-      <label for="testDifficulty">Difficulty</label>
-      <select id="testDifficulty">
-        <option value="easy">Easy</option>
-        <option value="medium">Medium</option>
-        <option value="hard">Hard</option>
-      </select>
+      <div class="grid">
+        <div class="card">
+          <label for="testSource">Question Source</label>
+          <select id="testSource">
+            <option value="all">All Sources</option>
+            <option value="translator">Translator Text</option>
+            <option value="notes">Class Notes</option>
+            <option value="flashcards">Flash Cards</option>
+            <option value="legal">Built-In Legal Terms</option>
+            <option value="apa">Built-In APA / Citations</option>
+            <option value="civil">Built-In Civil Litigation</option>
+            <option value="realestate">Built-In Real Estate Law</option>
+          </select>
 
-      <button class="action" type="button" onclick="generateTestQuestion()">Give Me a Question</button>
-      <button class="action green" type="button" onclick="showTestAnswer()">Show Answer</button>
-      <button class="action danger" type="button" onclick="clearTestMode()">Clear</button>
-    </div>
+          <label for="testDifficulty">Difficulty</label>
+          <select id="testDifficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
 
-    <div class="card">
-      <h3>Question</h3>
-      <div id="testQuestion" class="output">Your test question will appear here.</div>
+          <button class="action" type="button" id="generateQuestionBtn">Give Me a Question</button>
+          <button class="action green" type="button" id="showAnswerBtn">Show Answer</button>
+          <button class="action danger" type="button" id="clearTestBtn">Clear</button>
+        </div>
 
-      <h3>Answer</h3>
-      <div id="testAnswer" class="output">The answer will appear here after you click Show Answer.</div>
-    </div>
-  </div>
-</section>
+        <div class="card">
+          <h3>Question</h3>
+          <div id="testQuestion" class="output">Your test question will appear here.</div>
+
+          <h3>Answer</h3>
+          <div id="testAnswer" class="output">The answer will appear here after you click Show Answer.</div>
+        </div>
+      </div>
+    </section>
 
     <!-- PROFESSOR MODE -->
     <section id="professor" class="tab">
@@ -179,7 +183,7 @@
             <option>APA 7th Edition</option>
             <option>Bluebook</option>
             <option>APA + Bluebook</option>
-            <option>Professor Specific Rules</option>
+            <option>Professor-Specific Rules</option>
           </select>
 
           <label for="initialDue">Initial Post / Assignment Due</label>
@@ -192,10 +196,10 @@
           <input id="replyRequirement" placeholder="Example: Reply to at least 2 classmates" />
 
           <label for="professorRules">Professor Rules / Reminders</label>
-          <textarea id="professorRules" placeholder="Add citation rules, writing expectations, reply rules, grading reminders, late policy, etc."></textarea>
+          <textarea id="professorRules" placeholder="Add citation rules, writing expectations, late policy, reply rules, grading reminders, etc."></textarea>
 
-          <button class="action" type="button" onclick="saveProfessorRules()">Save Professor Rules</button>
-          <button class="action danger" type="button" onclick="clearProfessorRules()">Clear Professor Rules</button>
+          <button class="action" type="button" id="saveProfessorBtn">Save Professor Rules</button>
+          <button class="action danger" type="button" id="clearProfessorBtn">Clear Professor Rules</button>
         </div>
 
         <div class="card">
@@ -212,7 +216,7 @@
       <div class="grid">
         <div class="card">
           <label for="grammarInput">Paste Your Writing</label>
-          <textarea id="grammarInput" placeholder="Paste a discussion post, paragraph, assignment draft, or reply here."></textarea>
+          <textarea id="grammarInput" placeholder="Paste a discussion reply, paragraph, draft, or assignment section here."></textarea>
 
           <label for="grammarMode">Check Type</label>
           <select id="grammarMode">
@@ -221,8 +225,8 @@
             <option value="discussion">Discussion Board Check</option>
           </select>
 
-          <button class="action" type="button" onclick="checkWriting()">Check Writing</button>
-          <button class="action danger" type="button" onclick="clearGrammar()">Clear</button>
+          <button class="action" type="button" id="checkWritingBtn">Check Writing</button>
+          <button class="action danger" type="button" id="clearGrammarBtn">Clear</button>
         </div>
 
         <div class="card">
@@ -262,20 +266,20 @@
           </select>
 
           <label for="assignmentNotes">Notes</label>
-          <textarea id="assignmentNotes" placeholder="Add professor requirements, citation rules, source reminders, or grading notes."></textarea>
+          <textarea id="assignmentNotes" placeholder="Add professor requirements, citations needed, source reminders, or grading notes."></textarea>
 
-          <button class="action" type="button" onclick="addAssignment()">Add Assignment</button>
+          <button class="action" type="button" id="addAssignmentBtn">Add Assignment</button>
+          <button class="action danger" type="button" id="clearAssignmentsBtn">Clear Assignments</button>
         </div>
 
         <div class="card">
           <h3>Saved Assignments</h3>
           <div id="assignmentList"></div>
-          <button class="action danger" type="button" onclick="clearData('assignments')">Clear Assignments</button>
         </div>
       </div>
     </section>
 
-    <!-- NOTES -->
+    <!-- CLASS NOTES -->
     <section id="notes" class="tab">
       <h2>Class Notes</h2>
 
@@ -291,19 +295,79 @@
           <input id="noteTopic" placeholder="Example: Easements" />
 
           <label for="noteText">Notes</label>
-          <textarea id="noteText" placeholder="Type class notes, professor comments, source notes, or case notes here."></textarea>
+          <textarea id="noteText" placeholder="Type class notes, professor comments, source notes, case notes, or study reminders here."></textarea>
 
-          <button class="action" type="button" onclick="addNote()">Save Note</button>
+          <button class="action" type="button" id="addNoteBtn">Save Note</button>
+          <button class="action danger" type="button" id="clearNotesBtn">Clear Notes</button>
         </div>
 
         <div class="card">
           <h3>Saved Notes</h3>
 
           <label for="noteSearch">Search Notes</label>
-          <input id="noteSearch" placeholder="Search by class, unit, topic, or note..." oninput="renderNotes()" />
+          <input id="noteSearch" placeholder="Search by class, unit, topic, or note..." />
 
           <div id="noteList"></div>
-          <button class="action danger" type="button" onclick="clearData('notes')">Clear Notes</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FLASH CARDS -->
+    <section id="flashcards" class="tab">
+      <h2>Flash Cards</h2>
+
+      <div class="grid">
+        <div class="card">
+          <label for="cardTopic">Class / Topic</label>
+          <input id="cardTopic" placeholder="Example: Civil Procedure" />
+
+          <label for="cardFront">Front of Card</label>
+          <textarea id="cardFront" placeholder="Question, legal term, case name, or concept."></textarea>
+
+          <label for="cardBack">Back of Card</label>
+          <textarea id="cardBack" placeholder="Answer, rule, definition, or explanation."></textarea>
+
+          <button class="action" type="button" id="addCardBtn">Add Flash Card</button>
+          <button class="action danger" type="button" id="clearCardsBtn">Clear Flash Cards</button>
+        </div>
+
+        <div class="card">
+          <h3>Saved Flash Cards</h3>
+          <p class="small">Click a card to flip it.</p>
+          <div id="cardList" class="flashcards"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DISCUSSION IDEAS -->
+    <section id="discussion" class="tab">
+      <h2>Discussion Ideas Generator</h2>
+      <p class="small">This gives response ideas and angles. It does not write the whole assignment for you.</p>
+
+      <div class="grid">
+        <div class="card">
+          <label for="discussionClass">Class</label>
+          <input id="discussionClass" placeholder="Example: Civil Litigation" />
+
+          <label for="discussionPrompt">Discussion Prompt or Classmate’s Point</label>
+          <textarea id="discussionPrompt" placeholder="Paste the discussion prompt or a classmate’s point."></textarea>
+
+          <label for="discussionMain">Your Main Thought</label>
+          <textarea id="discussionMain" placeholder="What do you think about it?"></textarea>
+
+          <label for="discussionPersonal">Personal / Real-Life Connection</label>
+          <textarea id="discussionPersonal" placeholder="Add a real-life example or practical connection you could mention."></textarea>
+
+          <label for="discussionSources">Source / Citation Notes</label>
+          <textarea id="discussionSources" placeholder="Add APA, Bluebook, textbook, article, or legal source notes."></textarea>
+
+          <button class="action" type="button" id="generateDiscussionBtn">Generate Response Ideas</button>
+          <button class="action danger" type="button" id="clearDiscussionBtn">Clear Ideas</button>
+        </div>
+
+        <div class="card">
+          <h3>Response Ideas</h3>
+          <div id="discussionOutput" class="output">Your discussion response ideas will appear here.</div>
         </div>
       </div>
     </section>
@@ -338,53 +402,13 @@
           <label for="apaReferences">References</label>
           <textarea id="apaReferences" placeholder="Paste APA references here."></textarea>
 
-          <button class="action" type="button" onclick="generateAPA()">Generate APA Outline</button>
+          <button class="action" type="button" id="generateApaBtn">Generate APA Outline</button>
+          <button class="action danger" type="button" id="clearApaBtn">Clear Outline</button>
         </div>
 
         <div class="card">
           <h3>Generated APA Outline</h3>
           <div id="apaOutput" class="output">Your APA outline will appear here.</div>
-
-          <div class="top-actions">
-            <button class="action green" type="button" onclick="window.print()">Print / Save as PDF</button>
-            <button class="action danger" type="button" onclick="clearOutput('apaOutput')">Clear Outline</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- DISCUSSION -->
-    <section id="discussion" class="tab">
-      <h2>Discussion Post Helper</h2>
-
-      <div class="grid">
-        <div class="card">
-          <label for="discussionClass">Class</label>
-          <input id="discussionClass" placeholder="Example: Civil Litigation" />
-
-          <label for="discussionPrompt">Discussion Prompt</label>
-          <textarea id="discussionPrompt"></textarea>
-
-          <label for="discussionMain">Main Point</label>
-          <textarea id="discussionMain"></textarea>
-
-          <label for="discussionPersonal">Personal Connection</label>
-          <textarea id="discussionPersonal"></textarea>
-
-          <label for="discussionSources">Source / Citation Notes</label>
-          <textarea id="discussionSources" placeholder="Add source details, APA notes, or Bluebook notes."></textarea>
-
-          <button class="action" type="button" onclick="generateDiscussion()">Generate Discussion Post</button>
-        </div>
-
-        <div class="card">
-          <h3>Generated Discussion Draft</h3>
-          <div id="discussionOutput" class="output">Your discussion post will appear here.</div>
-
-          <div class="top-actions">
-            <button class="action green" type="button" onclick="window.print()">Print / Save as PDF</button>
-            <button class="action danger" type="button" onclick="clearOutput('discussionOutput')">Clear Draft</button>
-          </div>
         </div>
       </div>
     </section>
@@ -419,40 +443,13 @@
           <label for="citationURL">URL</label>
           <input id="citationURL" placeholder="https://..." />
 
-          <button class="action" type="button" onclick="addCitation()">Add Citation</button>
+          <button class="action" type="button" id="addCitationBtn">Add Citation</button>
+          <button class="action danger" type="button" id="clearCitationsBtn">Clear Citations</button>
         </div>
 
         <div class="card">
           <h3>Saved Citations</h3>
           <div id="citationList"></div>
-          <button class="action danger" type="button" onclick="clearData('citations')">Clear Citations</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- STUDY CARDS -->
-    <section id="cards" class="tab">
-      <h2>Study Cards</h2>
-
-      <div class="grid">
-        <div class="card">
-          <label for="cardTopic">Class / Topic</label>
-          <input id="cardTopic" placeholder="Example: Civil Procedure" />
-
-          <label for="cardFront">Front of Card</label>
-          <textarea id="cardFront" placeholder="Question, legal term, case name, or concept."></textarea>
-
-          <label for="cardBack">Back of Card</label>
-          <textarea id="cardBack" placeholder="Answer, rule, definition, or explanation."></textarea>
-
-          <button class="action" type="button" onclick="addCard()">Add Study Card</button>
-        </div>
-
-        <div class="card">
-          <h3>Saved Study Cards</h3>
-          <p class="small">Click a card to flip it.</p>
-          <div id="cardList" class="flashcards"></div>
-          <button class="action danger" type="button" onclick="clearData('cards')">Clear Study Cards</button>
         </div>
       </div>
     </section>
