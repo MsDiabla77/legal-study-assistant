@@ -337,7 +337,7 @@ function buildQuestionPool(source) {
   const pool = [];
 
   const translatorInput = localStorage.getItem(STORAGE_KEYS.translatorInput) || getValue("legalInput");
-  const translatorOutput = localStorage.getItem(STORAGE_KEYS.translatorOutput") || "";
+  const translatorOutput = localStorage.getItem(STORAGE_KEYS.translatorOutput) || "";
 
   if ((source === "all" || source === "translator") && translatorInput.trim()) {
     pool.push({
