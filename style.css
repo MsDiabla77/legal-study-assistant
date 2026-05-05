@@ -53,11 +53,11 @@ body {
   margin: 10px auto 0;
   font-size: 1.05rem;
   opacity: 0.96;
-  max-width: 850px;
+  max-width: 900px;
 }
 
 .container {
-  width: min(1220px, 94%);
+  width: min(1240px, 94%);
   margin: 26px auto;
 }
 
@@ -119,6 +119,10 @@ h3 {
   gap: 18px;
 }
 
+.dashboard-grid {
+  grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+}
+
 .card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -133,37 +137,15 @@ h3 {
   border-top: 6px solid var(--primary);
 }
 
-.dashboard-card:nth-child(2) {
-  border-top-color: var(--blue);
-}
-
-.dashboard-card:nth-child(3) {
-  border-top-color: var(--accent);
-}
-
-.dashboard-card:nth-child(4) {
-  border-top-color: var(--pink);
-}
-
-.dashboard-card:nth-child(5) {
-  border-top-color: var(--orange);
-}
-
-.dashboard-card:nth-child(6) {
-  border-top-color: var(--teal);
-}
-
-.dashboard-card:nth-child(7) {
-  border-top-color: #9333ea;
-}
-
-.dashboard-card:nth-child(8) {
-  border-top-color: #2563eb;
-}
-
-.dashboard-card:nth-child(9) {
-  border-top-color: #16a34a;
-}
+.dashboard-card:nth-child(2) { border-top-color: var(--blue); }
+.dashboard-card:nth-child(3) { border-top-color: var(--accent); }
+.dashboard-card:nth-child(4) { border-top-color: var(--pink); }
+.dashboard-card:nth-child(5) { border-top-color: var(--orange); }
+.dashboard-card:nth-child(6) { border-top-color: var(--teal); }
+.dashboard-card:nth-child(7) { border-top-color: #9333ea; }
+.dashboard-card:nth-child(8) { border-top-color: #2563eb; }
+.dashboard-card:nth-child(9) { border-top-color: #16a34a; }
+.dashboard-card:nth-child(10) { border-top-color: #f97316; }
 
 .dashboard-card:hover {
   transform: translateY(-4px);
@@ -198,7 +180,7 @@ select:focus {
 }
 
 textarea {
-  min-height: 100px;
+  min-height: 105px;
   resize: vertical;
 }
 
@@ -327,15 +309,13 @@ button.danger:hover {
   margin-top: 16px;
 }
 
-/* Prevent any accidental huge circle/blob from covering content */
+/* Stop accidental background blobs from covering the app */
 body::before,
 body::after,
 .container::before,
 .container::after,
 .tab::before,
-.tab::after,
-#dashboard::before,
-#dashboard::after {
+.tab::after {
   display: none !important;
   content: none !important;
 }
