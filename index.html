@@ -10,62 +10,179 @@
 </head>
 
 <body>
-  <header>
-    <h1>⚖️ Legal Study Helper</h1>
-    <p>APA papers, discussion posts, citations, notes, assignments, and study cards — all in one place.</p>
+  <header class="hero">
+    <div class="hero-content">
+      <h1>⚖️ Legal Study Helper</h1>
+      <p>Translate legal wording, track assignments, save notes, build APA outlines, check writing, and study smarter.</p>
+    </div>
   </header>
 
   <main class="container">
-
     <nav class="tabs">
-      <button class="tab-btn active" onclick="openTab('dashboard', this)">Dashboard</button>
-      <button class="tab-btn" onclick="openTab('assignments', this)">Assignments</button>
-      <button class="tab-btn" onclick="openTab('apa', this)">APA Paper</button>
-      <button class="tab-btn" onclick="openTab('discussion', this)">Discussion</button>
-      <button class="tab-btn" onclick="openTab('citations', this)">Citations</button>
-      <button class="tab-btn" onclick="openTab('cards', this)">Study Cards</button>
-      <button class="tab-btn" onclick="openTab('notes', this)">Class Notes</button>
+      <button class="tab-btn active" type="button" onclick="openTab('dashboard', this)">Dashboard</button>
+      <button class="tab-btn" type="button" onclick="openTab('translator', this)">Translator</button>
+      <button class="tab-btn" type="button" onclick="openTab('professor', this)">Professor Mode</button>
+      <button class="tab-btn" type="button" onclick="openTab('grammar', this)">Grammar Check</button>
+      <button class="tab-btn" type="button" onclick="openTab('assignments', this)">Assignments</button>
+      <button class="tab-btn" type="button" onclick="openTab('notes', this)">Class Notes</button>
+      <button class="tab-btn" type="button" onclick="openTab('apa', this)">APA Paper</button>
+      <button class="tab-btn" type="button" onclick="openTab('discussion', this)">Discussion</button>
+      <button class="tab-btn" type="button" onclick="openTab('citations', this)">Citations</button>
+      <button class="tab-btn" type="button" onclick="openTab('cards', this)">Study Cards</button>
     </nav>
 
     <!-- DASHBOARD -->
     <section id="dashboard" class="tab active">
       <h2>Dashboard</h2>
-      <p class="small">Click a card to jump to that tool.</p>
+      <p class="small">Choose a tool below. Everything saves in your browser unless you clear it.</p>
 
       <div class="grid">
+        <div class="card dashboard-card" onclick="openTabById('translator')">
+          <h3>⚖️ Legal Translator</h3>
+          <p>Turn legal wording into plain English for class notes and discussion boards.</p>
+        </div>
+
+        <div class="card dashboard-card" onclick="openTabById('professor')">
+          <h3>🎓 Professor Mode</h3>
+          <p>Save professor rules, citation style, deadlines, reply rules, and grading reminders.</p>
+        </div>
+
+        <div class="card dashboard-card" onclick="openTabById('grammar')">
+          <h3>✅ Grammar Check</h3>
+          <p>Check spelling, grammar, citation reminders, and professional writing issues.</p>
+        </div>
+
         <div class="card dashboard-card" onclick="openTabById('assignments')">
           <h3>📌 Assignment Tracker</h3>
-          <p>Add due dates, class names, priorities, and completion status.</p>
-        </div>
-
-        <div class="card dashboard-card" onclick="openTabById('apa')">
-          <h3>📝 APA Paper Helper</h3>
-          <p>Create a basic APA-style paper outline from your notes.</p>
-        </div>
-
-        <div class="card dashboard-card" onclick="openTabById('discussion')">
-          <h3>💬 Discussion Helper</h3>
-          <p>Build a structured class discussion post with source reminders.</p>
-        </div>
-
-        <div class="card dashboard-card" onclick="openTabById('citations')">
-          <h3>📚 Citation Helper</h3>
-          <p>Save APA citations and legal case citations.</p>
-        </div>
-
-        <div class="card dashboard-card" onclick="openTabById('cards')">
-          <h3>🃏 Study Cards</h3>
-          <p>Create flip-style cards for legal terms, cases, rules, and definitions.</p>
+          <p>Track class assignments, due dates, priority, status, and notes.</p>
         </div>
 
         <div class="card dashboard-card" onclick="openTabById('notes')">
           <h3>📖 Class Notes</h3>
-          <p>Save notes by class, unit, chapter, and topic.</p>
+          <p>Save searchable notes by class, unit, chapter, or topic.</p>
+        </div>
+
+        <div class="card dashboard-card" onclick="openTabById('apa')">
+          <h3>📝 APA Paper Helper</h3>
+          <p>Create a basic APA-style outline and formatting reminder.</p>
+        </div>
+
+        <div class="card dashboard-card" onclick="openTabById('discussion')">
+          <h3>💬 Discussion Helper</h3>
+          <p>Build a discussion post draft with main points, personal connection, and source notes.</p>
+        </div>
+
+        <div class="card dashboard-card" onclick="openTabById('citations')">
+          <h3>📚 Citation Helper</h3>
+          <p>Save APA sources, cases, statutes, regulations, and citation notes.</p>
+        </div>
+
+        <div class="card dashboard-card" onclick="openTabById('cards')">
+          <h3>🃏 Study Cards</h3>
+          <p>Create flip cards for legal terms, cases, rules, and definitions.</p>
         </div>
       </div>
 
       <div class="top-actions">
-        <button class="action green" onclick="window.print()">Print / Save as PDF</button>
+        <button class="action green" type="button" onclick="window.print()">Print / Save as PDF</button>
+        <button class="action danger" type="button" onclick="clearEverything()">Clear All Saved Data</button>
+      </div>
+    </section>
+
+    <!-- TRANSLATOR -->
+    <section id="translator" class="tab">
+      <h2>Plain-English Legal Translator</h2>
+
+      <div class="grid">
+        <div class="card">
+          <label for="legalInput">Paste Legal Text</label>
+          <textarea id="legalInput" placeholder="Paste legal wording, statute language, assignment wording, or a court paragraph here."></textarea>
+
+          <label for="translatorLevel">Translation Style</label>
+          <select id="translatorLevel">
+            <option value="simple">Simple / Plain English</option>
+            <option value="student">Law Student Notes</option>
+            <option value="discussion">Discussion Post Explanation</option>
+          </select>
+
+          <button class="action" type="button" onclick="translateLegalText()">Translate</button>
+          <button class="action danger" type="button" onclick="clearTranslator()">Clear</button>
+        </div>
+
+        <div class="card">
+          <h3>Translation</h3>
+          <div id="translatorOutput" class="output">Your plain-English explanation will appear here.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROFESSOR MODE -->
+    <section id="professor" class="tab">
+      <h2>Professor Mode</h2>
+
+      <div class="grid">
+        <div class="card">
+          <label for="professorClass">Class Name</label>
+          <input id="professorClass" placeholder="Example: Civil Litigation" />
+
+          <label for="professorName">Professor Name</label>
+          <input id="professorName" placeholder="Example: Prof. Milardo" />
+
+          <label for="citationStyle">Required Citation Style</label>
+          <select id="citationStyle">
+            <option>APA 7th Edition</option>
+            <option>Bluebook</option>
+            <option>APA + Bluebook</option>
+            <option>Professor Specific Rules</option>
+          </select>
+
+          <label for="initialDue">Initial Post / Assignment Due</label>
+          <input id="initialDue" placeholder="Example: Wednesday 11:59 p.m. EST" />
+
+          <label for="replyDue">Replies Due</label>
+          <input id="replyDue" placeholder="Example: Sunday 11:59 p.m. EST" />
+
+          <label for="replyRequirement">Reply Requirement</label>
+          <input id="replyRequirement" placeholder="Example: Reply to at least 2 classmates" />
+
+          <label for="professorRules">Professor Rules / Reminders</label>
+          <textarea id="professorRules" placeholder="Add citation rules, writing expectations, reply rules, grading reminders, late policy, etc."></textarea>
+
+          <button class="action" type="button" onclick="saveProfessorRules()">Save Professor Rules</button>
+          <button class="action danger" type="button" onclick="clearProfessorRules()">Clear Professor Rules</button>
+        </div>
+
+        <div class="card">
+          <h3>Saved Professor Rules</h3>
+          <div id="professorOutput" class="output">Your saved professor rules will appear here.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRAMMAR CHECK -->
+    <section id="grammar" class="tab">
+      <h2>Grammar, Spelling, and Citation Check</h2>
+
+      <div class="grid">
+        <div class="card">
+          <label for="grammarInput">Paste Your Writing</label>
+          <textarea id="grammarInput" placeholder="Paste a discussion post, paragraph, assignment draft, or reply here."></textarea>
+
+          <label for="grammarMode">Check Type</label>
+          <select id="grammarMode">
+            <option value="school">School Assignment Check</option>
+            <option value="legal">Legal Writing Check</option>
+            <option value="discussion">Discussion Board Check</option>
+          </select>
+
+          <button class="action" type="button" onclick="checkWriting()">Check Writing</button>
+          <button class="action danger" type="button" onclick="clearGrammar()">Clear</button>
+        </div>
+
+        <div class="card">
+          <h3>Writing Check Results</h3>
+          <div id="grammarOutput" class="output">Your grammar, spelling, and citation reminders will appear here.</div>
+        </div>
       </div>
     </section>
 
@@ -76,7 +193,7 @@
       <div class="grid">
         <div class="card">
           <label for="assignmentClass">Class Name</label>
-          <input id="assignmentClass" placeholder="Example: Civil Litigation" />
+          <input id="assignmentClass" placeholder="Example: Sociology" />
 
           <label for="assignmentTitle">Assignment Title</label>
           <input id="assignmentTitle" placeholder="Example: Unit 4 Discussion Board" />
@@ -99,15 +216,48 @@
           </select>
 
           <label for="assignmentNotes">Notes</label>
-          <textarea id="assignmentNotes" placeholder="Add professor requirements, citation rules, or reminders."></textarea>
+          <textarea id="assignmentNotes" placeholder="Add professor requirements, citation rules, source reminders, or grading notes."></textarea>
 
-          <button class="action" onclick="addAssignment()">Add Assignment</button>
+          <button class="action" type="button" onclick="addAssignment()">Add Assignment</button>
         </div>
 
         <div class="card">
           <h3>Saved Assignments</h3>
           <div id="assignmentList"></div>
-          <button class="action danger" onclick="clearData('assignments')">Clear Assignments</button>
+          <button class="action danger" type="button" onclick="clearData('assignments')">Clear Assignments</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTES -->
+    <section id="notes" class="tab">
+      <h2>Class Notes</h2>
+
+      <div class="grid">
+        <div class="card">
+          <label for="noteClass">Class Name</label>
+          <input id="noteClass" placeholder="Example: Real Estate Law" />
+
+          <label for="noteUnit">Unit / Chapter</label>
+          <input id="noteUnit" placeholder="Example: Unit 6" />
+
+          <label for="noteTopic">Topic</label>
+          <input id="noteTopic" placeholder="Example: Easements" />
+
+          <label for="noteText">Notes</label>
+          <textarea id="noteText" placeholder="Type class notes, professor comments, source notes, or case notes here."></textarea>
+
+          <button class="action" type="button" onclick="addNote()">Save Note</button>
+        </div>
+
+        <div class="card">
+          <h3>Saved Notes</h3>
+
+          <label for="noteSearch">Search Notes</label>
+          <input id="noteSearch" placeholder="Search by class, unit, topic, or note..." oninput="renderNotes()" />
+
+          <div id="noteList"></div>
+          <button class="action danger" type="button" onclick="clearData('notes')">Clear Notes</button>
         </div>
       </div>
     </section>
@@ -142,7 +292,7 @@
           <label for="apaReferences">References</label>
           <textarea id="apaReferences" placeholder="Paste APA references here."></textarea>
 
-          <button class="action" onclick="generateAPA()">Generate APA Outline</button>
+          <button class="action" type="button" onclick="generateAPA()">Generate APA Outline</button>
         </div>
 
         <div class="card">
@@ -150,8 +300,8 @@
           <div id="apaOutput" class="output">Your APA outline will appear here.</div>
 
           <div class="top-actions">
-            <button class="action green" onclick="window.print()">Print / Save as PDF</button>
-            <button class="action danger" onclick="clearOutput('apaOutput')">Clear Outline</button>
+            <button class="action green" type="button" onclick="window.print()">Print / Save as PDF</button>
+            <button class="action danger" type="button" onclick="clearOutput('apaOutput')">Clear Outline</button>
           </div>
         </div>
       </div>
@@ -164,7 +314,7 @@
       <div class="grid">
         <div class="card">
           <label for="discussionClass">Class</label>
-          <input id="discussionClass" placeholder="Example: Sociology" />
+          <input id="discussionClass" placeholder="Example: Civil Litigation" />
 
           <label for="discussionPrompt">Discussion Prompt</label>
           <textarea id="discussionPrompt"></textarea>
@@ -176,9 +326,9 @@
           <textarea id="discussionPersonal"></textarea>
 
           <label for="discussionSources">Source / Citation Notes</label>
-          <textarea id="discussionSources" placeholder="Add source details or APA citation notes."></textarea>
+          <textarea id="discussionSources" placeholder="Add source details, APA notes, or Bluebook notes."></textarea>
 
-          <button class="action" onclick="generateDiscussion()">Generate Discussion Post</button>
+          <button class="action" type="button" onclick="generateDiscussion()">Generate Discussion Post</button>
         </div>
 
         <div class="card">
@@ -186,8 +336,8 @@
           <div id="discussionOutput" class="output">Your discussion post will appear here.</div>
 
           <div class="top-actions">
-            <button class="action green" onclick="window.print()">Print / Save as PDF</button>
-            <button class="action danger" onclick="clearOutput('discussionOutput')">Clear Draft</button>
+            <button class="action green" type="button" onclick="window.print()">Print / Save as PDF</button>
+            <button class="action danger" type="button" onclick="clearOutput('discussionOutput')">Clear Draft</button>
           </div>
         </div>
       </div>
@@ -204,6 +354,8 @@
             <option>APA Source</option>
             <option>Legal Case</option>
             <option>Statute / Regulation</option>
+            <option>Website / Article</option>
+            <option>Book / Textbook</option>
           </select>
 
           <label for="citationAuthor">Author / Case Name / Law Name</label>
@@ -221,13 +373,13 @@
           <label for="citationURL">URL</label>
           <input id="citationURL" placeholder="https://..." />
 
-          <button class="action" onclick="addCitation()">Add Citation</button>
+          <button class="action" type="button" onclick="addCitation()">Add Citation</button>
         </div>
 
         <div class="card">
           <h3>Saved Citations</h3>
           <div id="citationList"></div>
-          <button class="action danger" onclick="clearData('citations')">Clear Citations</button>
+          <button class="action danger" type="button" onclick="clearData('citations')">Clear Citations</button>
         </div>
       </div>
     </section>
@@ -242,56 +394,22 @@
           <input id="cardTopic" placeholder="Example: Civil Procedure" />
 
           <label for="cardFront">Front of Card</label>
-          <textarea id="cardFront" placeholder="Question, legal term, or concept."></textarea>
+          <textarea id="cardFront" placeholder="Question, legal term, case name, or concept."></textarea>
 
           <label for="cardBack">Back of Card</label>
-          <textarea id="cardBack" placeholder="Answer, rule, or definition."></textarea>
+          <textarea id="cardBack" placeholder="Answer, rule, definition, or explanation."></textarea>
 
-          <button class="action" onclick="addCard()">Add Study Card</button>
+          <button class="action" type="button" onclick="addCard()">Add Study Card</button>
         </div>
 
         <div class="card">
           <h3>Saved Study Cards</h3>
           <p class="small">Click a card to flip it.</p>
           <div id="cardList" class="flashcards"></div>
-          <button class="action danger" onclick="clearData('cards')">Clear Study Cards</button>
+          <button class="action danger" type="button" onclick="clearData('cards')">Clear Study Cards</button>
         </div>
       </div>
     </section>
-
-    <!-- NOTES -->
-    <section id="notes" class="tab">
-      <h2>Class Notes</h2>
-
-      <div class="grid">
-        <div class="card">
-          <label for="noteClass">Class Name</label>
-          <input id="noteClass" placeholder="Example: Real Estate Law" />
-
-          <label for="noteUnit">Unit / Chapter</label>
-          <input id="noteUnit" placeholder="Example: Unit 6" />
-
-          <label for="noteTopic">Topic</label>
-          <input id="noteTopic" placeholder="Example: Easements" />
-
-          <label for="noteText">Notes</label>
-          <textarea id="noteText" placeholder="Type your class notes here."></textarea>
-
-          <button class="action" onclick="addNote()">Save Note</button>
-        </div>
-
-        <div class="card">
-          <h3>Saved Notes</h3>
-
-          <label for="noteSearch">Search Notes</label>
-          <input id="noteSearch" placeholder="Search by class, unit, topic, or note..." oninput="renderNotes()" />
-
-          <div id="noteList"></div>
-          <button class="action danger" onclick="clearData('notes')">Clear Notes</button>
-        </div>
-      </div>
-    </section>
-
   </main>
 
   <script src="app.js"></script>
