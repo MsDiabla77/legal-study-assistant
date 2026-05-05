@@ -56,111 +56,144 @@ function openTabById(tabId) {
 }
 
 /* TRANSLATOR */
-function translateLegalText() {
-  const input = document.getElementById("legalInput").value.trim();
-  const level = document.getElementById("translatorLevel").value;
-  const output = document.getElementById("translatorOutput");
+let currentTestAnswer = "";
 
-  if (!input) {
-    alert("Please paste legal text first.");
+function generateTestQuestion() {
+  const topic = document.getElementById("testTopic").value;
+  const difficulty = document.getElementById("testDifficulty").value;
+  const questionBox = document.getElementById("testQuestion");
+  const answerBox = document.getElementById("testAnswer");
+
+  const questions = {
+    legalTerms: [
+      {
+        q: "What does jurisdiction mean?",
+        a: "Jurisdiction means the court has legal authority to hear and decide a case."
+      },
+      {
+        q: "What is the difference between a plaintiff and a defendant?",
+        a: "The plaintiff is the person who brings the lawsuit. The defendant is the person being sued or accused."
+      },
+      {
+        q: "What does liability mean?",
+        a: "Liability means legal responsibility for an act, harm, debt, or legal duty."
+      }
+    ],
+    apa: [
+      {
+        q: "What belongs in an APA in-text citation?",
+        a: "An APA in-text citation usually includes the author’s last name and year, such as (Smith, 2024)."
+      },
+      {
+        q: "What is the purpose of an APA reference list?",
+        a: "The reference list gives full source information so the reader can locate the sources used in the paper."
+      },
+      {
+        q: "Why should source ideas be cited where they appear?",
+        a: "Citing where the source idea appears helps avoid plagiarism and shows exactly which idea came from which source."
+      }
+    ],
+    citations: [
+      {
+        q: "When should you use APA citation style?",
+        a: "Use APA for scholarly articles, textbooks, websites, and most general academic sources unless the professor says otherwise."
+      },
+      {
+        q: "When should you use Bluebook style?",
+        a: "Use Bluebook for legal authorities such as cases, statutes, regulations, and court materials when required by the professor."
+      },
+      {
+        q: "Why is one citation at the end of a paragraph sometimes not enough?",
+        a: "Because if several sentences contain source ideas, the reader may not know which source supports which sentence."
+      }
+    ],
+    civil: [
+      {
+        q: "What is discovery in civil litigation?",
+        a: "Discovery is the process where both sides exchange information, documents, evidence, and answers before trial."
+      },
+      {
+        q: "What is a complaint in a civil case?",
+        a: "A complaint is the document that starts a lawsuit and explains the claims against the defendant."
+      },
+      {
+        q: "What is summary judgment?",
+        a: "Summary judgment is when the court decides a case or issue without a trial because there is no real dispute about the important facts."
+      }
+    ],
+    realestate: [
+      {
+        q: "What is an easement?",
+        a: "An easement is a legal right to use someone else’s property for a specific purpose, such as a driveway or utility line."
+      },
+      {
+        q: "What is a deed?",
+        a: "A deed is a legal document used to transfer ownership of real property."
+      },
+      {
+        q: "What is title in real estate?",
+        a: "Title means legal ownership or the legal right to own and use property."
+      }
+    ]
+  };
+
+  const list = questions[topic];
+  const randomItem = list[Math.floor(Math.random() * list.length)];
+
+  let difficultyNote = "";
+
+  if (difficulty === "easy") {
+    difficultyNote = "Answer in simple terms.";
+  }
+
+  if (difficulty === "medium") {
+    difficultyNote = "Answer with the definition and one example.";
+  }
+
+  if (difficulty === "hard") {
+    difficultyNote = "Answer with the rule, why it matters, and a real-life example.";
+  }
+
+  questionBox.textContent = `${randomItem.q}\n\nDifficulty: ${difficulty}\n${difficultyNote}`;
+  answerBox.textContent = "Click Show Answer when you are ready.";
+  currentTestAnswer = randomItem.a;
+
+  localStorage.setItem("testQuestion", questionBox.textContent);
+  localStorage.setItem("testAnswerHidden", currentTestAnswer);
+  localStorage.setItem("testAnswerShown", "");
+}
+
+function showTestAnswer() {
+  const answerBox = document.getElementById("testAnswer");
+
+  if (!currentTestAnswer) {
+    currentTestAnswer = localStorage.getItem("testAnswerHidden") || "";
+  }
+
+  if (!currentTestAnswer) {
+    alert("Generate a question first.");
     return;
   }
 
-  let translated = input;
+  answerBox.textContent =
+`Answer:
 
-  const replacements = [
-    ["pursuant to", "under"],
-    ["heretofore", "before now"],
-    ["hereafter", "from now on"],
-    ["thereafter", "after that"],
-    ["whereas", "because / considering that"],
-    ["notwithstanding", "despite"],
-    ["shall", "must"],
-    ["may", "is allowed to"],
-    ["party", "person or side in the case"],
-    ["plaintiff", "person who brings the lawsuit"],
-    ["defendant", "person being sued or accused"],
-    ["jurisdiction", "the court’s legal power to hear the case"],
-    ["liable", "legally responsible"],
-    ["liability", "legal responsibility"],
-    ["damages", "money awarded for harm or loss"],
-    ["statute", "written law passed by the government"],
-    ["precedent", "earlier court decision used as an example"],
-    ["motion", "formal request asking the court to do something"],
-    ["affidavit", "written statement made under oath"],
-    ["cause of action", "legal reason someone can sue"],
-    ["burden of proof", "duty to prove something is true"],
-    ["prima facie", "enough evidence at first look"],
-    ["pro se", "representing yourself without a lawyer"],
-    ["discovery", "process where both sides exchange evidence"],
-    ["hearsay", "secondhand statement that may not be allowed as evidence"],
-    ["contract", "agreement that can be enforced by law"],
-    ["consideration", "something of value exchanged in a contract"],
-    ["breach", "breaking a legal duty or agreement"],
-    ["tort", "civil wrong that causes harm"],
-    ["negligence", "failure to use reasonable care"],
-    ["reasonable person", "what an ordinary careful person would do"],
-    ["summary judgment", "court decision without a full trial when no real fact dispute exists"],
-    ["complaint", "document that starts a lawsuit"],
-    ["answer", "defendant’s formal response to a complaint"],
-    ["petition", "formal written request to a court"],
-    ["respondent", "person responding to a petition"],
-    ["appellant", "person asking a higher court to review a decision"],
-    ["appellee", "person defending the lower court’s decision"]
-  ];
+${currentTestAnswer}
 
-  replacements.forEach(pair => {
-    const legalWord = pair[0];
-    const plainWord = pair[1];
-    const regex = new RegExp("\\b" + legalWord + "\\b", "gi");
-    translated = translated.replace(regex, plainWord);
-  });
+Study Tip:
+Try saying the answer out loud in your own words. Then add one real-life example so you know you actually understand it.`;
 
-  let finalText = "";
-
-  if (level === "simple") {
-    finalText =
-`Plain-English Version:
-
-${translated}
-
-What this means:
-This is breaking the legal wording into more direct language. Look for who is involved, what duty or right is being discussed, what action is required, and what result may happen.`;
-  }
-
-  if (level === "student") {
-    finalText =
-`Law Student Notes:
-
-Original Legal Text:
-${input}
-
-Plain-English Breakdown:
-${translated}
-
-Study Reminder:
-Identify the rule, the facts, the issue, who has the burden, and what legal outcome the rule points toward.`;
-  }
-
-  if (level === "discussion") {
-    finalText =
-`Discussion Post Explanation:
-
-The legal wording can be understood this way:
-
-${translated}
-
-In a class discussion, this could be explained as a legal rule or concept that affects rights, duties, responsibilities, or court outcomes. The important part is not only what the rule says, but how it applies to real facts.`;
-  }
-
-  output.textContent = finalText;
-  localStorage.setItem("translatorOutput", finalText);
+  localStorage.setItem("testAnswerShown", answerBox.textContent);
 }
 
-function clearTranslator() {
-  document.getElementById("legalInput").value = "";
-  document.getElementById("translatorOutput").textContent = "Your plain-English explanation will appear here.";
-  localStorage.removeItem("translatorOutput");
+function clearTestMode() {
+  currentTestAnswer = "";
+  document.getElementById("testQuestion").textContent = "Your test question will appear here.";
+  document.getElementById("testAnswer").textContent = "The answer will appear here after you click Show Answer.";
+
+  localStorage.removeItem("testQuestion");
+  localStorage.removeItem("testAnswerHidden");
+  localStorage.removeItem("testAnswerShown");
 }
 
 /* PROFESSOR MODE */
@@ -706,7 +739,6 @@ function startApp() {
   if (savedGrammar && document.getElementById("grammarOutput")) {
     document.getElementById("grammarOutput").textContent = savedGrammar;
   }
-}
 
 /* Make functions available to HTML buttons */
 window.openTab = openTab;
@@ -743,3 +775,9 @@ window.clearOutput = clearOutput;
 window.clearEverything = clearEverything;
 
 document.addEventListener("DOMContentLoaded", startApp);
+
+window.generateTestQuestion = generateTestQuestion;
+window.showTestAnswer = showTestAnswer;
+window.clearTestMode = clearTestMode;
+
+}
