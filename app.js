@@ -2,6 +2,7 @@ let assignments = JSON.parse(localStorage.getItem("assignments")) || [];
 let citations = JSON.parse(localStorage.getItem("citations")) || [];
 let cards = JSON.parse(localStorage.getItem("cards")) || [];
 let notes = JSON.parse(localStorage.getItem("notes")) || [];
+let currentTestAnswer = localStorage.getItem("testAnswerHidden") || "";
 
 function saveAll() {
   localStorage.setItem("assignments", JSON.stringify(assignments));
@@ -15,20 +16,15 @@ function openTab(tabId, button) {
   document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
 
   const selectedTab = document.getElementById(tabId);
-
-  if (selectedTab) {
-    selectedTab.classList.add("active");
-  }
-
-  if (button) {
-    button.classList.add("active");
-  }
+  if (selectedTab) selectedTab.classList.add("active");
+  if (button) button.classList.add("active");
 }
 
 function openTabById(tabId) {
   const tabNames = {
     dashboard: "Dashboard",
     translator: "Translator",
+    testmode: "Test Me",
     professor: "Professor Mode",
     grammar: "Grammar Check",
     assignments: "Assignments",
@@ -43,10 +39,7 @@ function openTabById(tabId) {
   document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
 
   const selectedTab = document.getElementById(tabId);
-
-  if (selectedTab) {
-    selectedTab.classList.add("active");
-  }
+  if (selectedTab) selectedTab.classList.add("active");
 
   document.querySelectorAll(".tab-btn").forEach(btn => {
     if (btn.textContent.trim() === tabNames[tabId]) {
@@ -55,16 +48,205 @@ function openTabById(tabId) {
   });
 }
 
-/* TRANSLATOR */
-let currentTestAnswer = "";
+/* ---------------------------
+   TRANSLATOR
+---------------------------- */
+
+function translateLegalText() {
+  const inputBox = document.getElementById("legalInput");
+  const levelBox = document.getElementById("translatorLevel");
+  const output = document.getElementById("translatorOutput");
+
+  if (!inputBox || !output) {
+    alert("Translator section is missing the correct IDs.");
+    return;
+  }
+
+  const input = inputBox.value.trim();
+  const level = levelBox ? levelBox.value : "full";
+
+  if (!input) {
+    alert("Please paste legal text first.");
+    return;
+  }
+
+  let translated = input;
+
+  const replacements = [
+    ["pursuant to", "under"],
+    ["heretofore", "before now"],
+    ["hereafter", "from now on"],
+    ["thereafter", "after that"],
+    ["whereas", "because / considering that"],
+    ["notwithstanding", "despite"],
+    ["shall", "must"],
+    ["may", "is allowed to"],
+    ["party", "person or side in the case"],
+    ["plaintiff", "person who brings the lawsuit"],
+    ["defendant", "person being sued or accused"],
+    ["jurisdiction", "the court’s legal power to hear the case"],
+    ["liable", "legally responsible"],
+    ["liability", "legal responsibility"],
+    ["damages", "money awarded for harm or loss"],
+    ["statute", "written law passed by the government"],
+    ["precedent", "earlier court decision used as an example"],
+    ["motion", "formal request asking the court to do something"],
+    ["affidavit", "written statement made under oath"],
+    ["cause of action", "legal reason someone can sue"],
+    ["burden of proof", "duty to prove something is true"],
+    ["prima facie", "enough evidence at first look"],
+    ["pro se", "representing yourself without a lawyer"],
+    ["discovery", "process where both sides exchange evidence"],
+    ["hearsay", "secondhand statement that may not be allowed as evidence"],
+    ["contract", "agreement that can be enforced by law"],
+    ["consideration", "something of value exchanged in a contract"],
+    ["breach", "breaking a legal duty or agreement"],
+    ["tort", "civil wrong that causes harm"],
+    ["negligence", "failure to use reasonable care"],
+    ["reasonable person", "what an ordinary careful person would do"],
+    ["summary judgment", "court decision without a full trial when there is no real dispute over the important facts"],
+    ["complaint", "document that starts a lawsuit"],
+    ["answer", "defendant’s formal response to a complaint"],
+    ["petition", "formal written request to a court"],
+    ["respondent", "person responding to a petition"],
+    ["appellant", "person asking a higher court to review a decision"],
+    ["appellee", "person defending the lower court’s decision"],
+    ["easement", "legal right to use someone else’s property for a specific purpose"],
+    ["deed", "legal document used to transfer ownership of real property"],
+    ["title", "legal ownership or right to own property"],
+    ["probate", "court process for handling someone’s estate after death"],
+    ["custody", "legal responsibility and decision-making for a child"]
+  ];
+
+  replacements.forEach(([legalWord, plainWord]) => {
+    const regex = new RegExp("\\b" + legalWord.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "gi");
+    translated = translated.replace(regex, plainWord);
+  });
+
+  const whyImportant =
+`Why It Is Important:
+This matters because legal wording controls rights, duties, deadlines, money, property, custody, court decisions, and personal responsibility. When the language is confusing, a person may not understand what they are required to do or what protection they may have.`;
+
+  const realLife =
+`Real-Life Circumstance:
+In real life, this could come up in a lawsuit, lease, contract, custody case, probate matter, property dispute, workplace issue, or court filing. A person may read the legal wording and feel lost, but once it is put into plain English, it becomes easier to see who has a duty, who has a right, and what may happen next.`;
+
+  let finalText = "";
+
+  if (level === "simple") {
+    finalText =
+`Plain-English Version:
+
+${translated}
+
+Basic Meaning:
+This is the simpler version of the legal wording. Look for who is involved, what rule applies, what action is required, and what result could happen.`;
+  } else if (level === "student") {
+    finalText =
+`Law Student Notes:
+
+Original Legal Text:
+${input}
+
+Plain-English Breakdown:
+${translated}
+
+${whyImportant}
+
+Study Tip:
+Use this to find the issue, rule, facts, application, and likely conclusion.`;
+  } else if (level === "discussion") {
+    finalText =
+`Discussion Explanation:
+
+The legal wording can be understood this way:
+
+${translated}
+
+${whyImportant}
+
+${realLife}
+
+Possible Discussion Angle:
+A good response could explain how this rule affects real people instead of only defining the legal term.`;
+  } else {
+    finalText =
+`Plain-English Version:
+
+${translated}
+
+${whyImportant}
+
+${realLife}
+
+How to Use This in Class:
+Explain what the rule means, connect it to a real situation, and then explain why the outcome matters.`;
+  }
+
+  output.textContent = finalText;
+
+  localStorage.setItem("translatorInput", input);
+  localStorage.setItem("translatorOutput", finalText);
+}
+
+function clearTranslator() {
+  const input = document.getElementById("legalInput");
+  const output = document.getElementById("translatorOutput");
+
+  if (input) input.value = "";
+  if (output) output.textContent = "Your plain-English explanation will appear here.";
+
+  localStorage.removeItem("translatorInput");
+  localStorage.removeItem("translatorOutput");
+}
+
+/* ---------------------------
+   TEST ME — LINKED TO TRANSLATOR, NOTES, FLASHCARDS
+---------------------------- */
 
 function generateTestQuestion() {
-  const topic = document.getElementById("testTopic").value;
-  const difficulty = document.getElementById("testDifficulty").value;
+  const topicBox = document.getElementById("testTopic");
+  const difficultyBox = document.getElementById("testDifficulty");
   const questionBox = document.getElementById("testQuestion");
   const answerBox = document.getElementById("testAnswer");
 
-  const questions = {
+  if (!questionBox || !answerBox) {
+    alert("Test Mode section is missing the correct IDs.");
+    return;
+  }
+
+  const topic = topicBox ? topicBox.value : "legalTerms";
+  const difficulty = difficultyBox ? difficultyBox.value : "easy";
+
+  const linkedQuestions = [];
+
+  const translatorText =
+    (document.getElementById("legalInput") && document.getElementById("legalInput").value.trim()) ||
+    localStorage.getItem("translatorInput") ||
+    "";
+
+  if (translatorText) {
+    linkedQuestions.push({
+      q: `Using the text from the Translator, explain the main legal idea in your own words:\n\n"${shortenText(translatorText, 350)}"`,
+      a: "Your answer should identify the main legal rule or issue, explain it in plain English, and give one real-life example."
+    });
+  }
+
+  notes.forEach(note => {
+    linkedQuestions.push({
+      q: `From your Class Notes, explain this topic:\n\nClass: ${note.className || "N/A"}\nTopic: ${note.topic || "Untitled"}\n\nWhat is the most important point?`,
+      a: note.text || "Review your saved note and explain the main point in your own words."
+    });
+  });
+
+  cards.forEach(card => {
+    linkedQuestions.push({
+      q: `Flash Card Question:\n\n${card.front}`,
+      a: card.back
+    });
+  });
+
+  const builtIn = {
     legalTerms: [
       {
         q: "What does jurisdiction mean?",
@@ -72,89 +254,91 @@ function generateTestQuestion() {
       },
       {
         q: "What is the difference between a plaintiff and a defendant?",
-        a: "The plaintiff is the person who brings the lawsuit. The defendant is the person being sued or accused."
+        a: "The plaintiff brings the lawsuit. The defendant is the person being sued or accused."
       },
       {
         q: "What does liability mean?",
-        a: "Liability means legal responsibility for an act, harm, debt, or legal duty."
+        a: "Liability means legal responsibility for an act, harm, debt, or duty."
       }
     ],
     apa: [
       {
         q: "What belongs in an APA in-text citation?",
-        a: "An APA in-text citation usually includes the author’s last name and year, such as (Smith, 2024)."
+        a: "Usually the author’s last name and year, such as (Smith, 2024)."
       },
       {
-        q: "What is the purpose of an APA reference list?",
-        a: "The reference list gives full source information so the reader can locate the sources used in the paper."
-      },
-      {
-        q: "Why should source ideas be cited where they appear?",
-        a: "Citing where the source idea appears helps avoid plagiarism and shows exactly which idea came from which source."
+        q: "Why does APA require a reference list?",
+        a: "The reference list gives full source information so readers can find the sources."
       }
     ],
     citations: [
       {
-        q: "When should you use APA citation style?",
-        a: "Use APA for scholarly articles, textbooks, websites, and most general academic sources unless the professor says otherwise."
-      },
-      {
-        q: "When should you use Bluebook style?",
-        a: "Use Bluebook for legal authorities such as cases, statutes, regulations, and court materials when required by the professor."
+        q: "When should APA be used instead of Bluebook?",
+        a: "APA is usually used for scholarly articles, textbooks, websites, and general academic sources. Bluebook is used for legal authority like cases and statutes when required."
       },
       {
         q: "Why is one citation at the end of a paragraph sometimes not enough?",
-        a: "Because if several sentences contain source ideas, the reader may not know which source supports which sentence."
+        a: "Because several sentences may contain different source ideas, and the reader needs to know which source supports which sentence."
       }
     ],
     civil: [
       {
         q: "What is discovery in civil litigation?",
-        a: "Discovery is the process where both sides exchange information, documents, evidence, and answers before trial."
+        a: "Discovery is the process where both sides exchange evidence, documents, and information before trial."
       },
       {
         q: "What is a complaint in a civil case?",
-        a: "A complaint is the document that starts a lawsuit and explains the claims against the defendant."
-      },
-      {
-        q: "What is summary judgment?",
-        a: "Summary judgment is when the court decides a case or issue without a trial because there is no real dispute about the important facts."
+        a: "A complaint starts the lawsuit and states the claims against the defendant."
       }
     ],
     realestate: [
       {
         q: "What is an easement?",
-        a: "An easement is a legal right to use someone else’s property for a specific purpose, such as a driveway or utility line."
+        a: "An easement is a legal right to use someone else’s property for a specific purpose."
       },
       {
         q: "What is a deed?",
         a: "A deed is a legal document used to transfer ownership of real property."
-      },
-      {
-        q: "What is title in real estate?",
-        a: "Title means legal ownership or the legal right to own and use property."
       }
     ]
   };
 
-  const list = questions[topic];
-  const randomItem = list[Math.floor(Math.random() * list.length)];
+  let questionPool = [];
+
+  if (topic === "legalTerms") questionPool = builtIn.legalTerms;
+  if (topic === "apa") questionPool = builtIn.apa;
+  if (topic === "citations") questionPool = builtIn.citations;
+  if (topic === "civil") questionPool = builtIn.civil;
+  if (topic === "realestate") questionPool = builtIn.realestate;
+
+  questionPool = questionPool.concat(linkedQuestions);
+
+  if (questionPool.length === 0) {
+    questionBox.textContent = "No questions available yet. Add class notes, flash cards, or translator text first.";
+    answerBox.textContent = "The answer will appear here after you click Show Answer.";
+    currentTestAnswer = "";
+    return;
+  }
+
+  const randomItem = questionPool[Math.floor(Math.random() * questionPool.length)];
 
   let difficultyNote = "";
-
   if (difficulty === "easy") {
     difficultyNote = "Answer in simple terms.";
   }
-
   if (difficulty === "medium") {
     difficultyNote = "Answer with the definition and one example.";
   }
-
   if (difficulty === "hard") {
-    difficultyNote = "Answer with the rule, why it matters, and a real-life example.";
+    difficultyNote = "Answer with the rule, why it matters, and a real-life circumstance.";
   }
 
-  questionBox.textContent = `${randomItem.q}\n\nDifficulty: ${difficulty}\n${difficultyNote}`;
+  questionBox.textContent =
+`${randomItem.q}
+
+Difficulty: ${difficulty}
+${difficultyNote}`;
+
   answerBox.textContent = "Click Show Answer when you are ready.";
   currentTestAnswer = randomItem.a;
 
@@ -165,6 +349,8 @@ function generateTestQuestion() {
 
 function showTestAnswer() {
   const answerBox = document.getElementById("testAnswer");
+
+  if (!answerBox) return;
 
   if (!currentTestAnswer) {
     currentTestAnswer = localStorage.getItem("testAnswerHidden") || "";
@@ -181,31 +367,38 @@ function showTestAnswer() {
 ${currentTestAnswer}
 
 Study Tip:
-Try saying the answer out loud in your own words. Then add one real-life example so you know you actually understand it.`;
+Say the answer out loud in your own words. Then add one real-life example so you know you actually understand it.`;
 
   localStorage.setItem("testAnswerShown", answerBox.textContent);
 }
 
 function clearTestMode() {
   currentTestAnswer = "";
-  document.getElementById("testQuestion").textContent = "Your test question will appear here.";
-  document.getElementById("testAnswer").textContent = "The answer will appear here after you click Show Answer.";
+
+  const questionBox = document.getElementById("testQuestion");
+  const answerBox = document.getElementById("testAnswer");
+
+  if (questionBox) questionBox.textContent = "Your test question will appear here.";
+  if (answerBox) answerBox.textContent = "The answer will appear here after you click Show Answer.";
 
   localStorage.removeItem("testQuestion");
   localStorage.removeItem("testAnswerHidden");
   localStorage.removeItem("testAnswerShown");
 }
 
-/* PROFESSOR MODE */
+/* ---------------------------
+   PROFESSOR MODE
+---------------------------- */
+
 function saveProfessorRules() {
   const rules = {
-    className: document.getElementById("professorClass").value,
-    professorName: document.getElementById("professorName").value,
-    citationStyle: document.getElementById("citationStyle").value,
-    initialDue: document.getElementById("initialDue").value,
-    replyDue: document.getElementById("replyDue").value,
-    replyRequirement: document.getElementById("replyRequirement").value,
-    professorRules: document.getElementById("professorRules").value
+    className: getValue("professorClass"),
+    professorName: getValue("professorName"),
+    citationStyle: getValue("citationStyle"),
+    initialDue: getValue("initialDue"),
+    replyDue: getValue("replyDue"),
+    replyRequirement: getValue("replyRequirement"),
+    professorRules: getValue("professorRules")
   };
 
   localStorage.setItem("professorRules", JSON.stringify(rules));
@@ -238,21 +431,24 @@ ${saved.professorRules || "No extra rules entered."}`;
 function clearProfessorRules() {
   localStorage.removeItem("professorRules");
 
-  document.getElementById("professorClass").value = "";
-  document.getElementById("professorName").value = "";
-  document.getElementById("initialDue").value = "";
-  document.getElementById("replyDue").value = "";
-  document.getElementById("replyRequirement").value = "";
-  document.getElementById("professorRules").value = "";
+  ["professorClass", "professorName", "initialDue", "replyDue", "replyRequirement", "professorRules"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = "";
+  });
 
   renderProfessorRules();
 }
 
-/* GRAMMAR CHECK */
+/* ---------------------------
+   GRAMMAR CHECK
+---------------------------- */
+
 function checkWriting() {
-  const text = document.getElementById("grammarInput").value.trim();
-  const mode = document.getElementById("grammarMode").value;
+  const text = getValue("grammarInput").trim();
+  const mode = getValue("grammarMode");
   const output = document.getElementById("grammarOutput");
+
+  if (!output) return;
 
   if (!text) {
     alert("Please paste your writing first.");
@@ -260,8 +456,7 @@ function checkWriting() {
   }
 
   const issues = [];
-
-  const lower = text.toLowerCase();
+  const padded = ` ${text.toLowerCase()} `;
 
   const commonFixes = [
     [" alot ", "Use “a lot,” not “alot.”"],
@@ -272,16 +467,13 @@ function checkWriting() {
     [" cant ", "Use “can’t.”"],
     [" wont ", "Use “won’t.”"],
     [" im ", "Use “I’m.”"],
-    [" i ", "Capitalize “I.”"],
     [" u ", "Use “you.”"],
     [" cuz ", "Use “because.”"],
     [" thru ", "Use “through.”"]
   ];
 
-  commonFixes.forEach(item => {
-    if (lower.includes(item[0])) {
-      issues.push(item[1]);
-    }
+  commonFixes.forEach(([bad, fix]) => {
+    if (padded.includes(bad)) issues.push(fix);
   });
 
   if (text.length < 150 && mode !== "discussion") {
@@ -297,16 +489,15 @@ function checkWriting() {
   }
 
   if (!text.includes("(") && !text.includes(")") && !text.includes("[") && !text.includes("]")) {
-    issues.push("No obvious in-text citation found. If you used a source, add APA in-text citation or legal citation support.");
+    issues.push("No obvious in-text citation found. If you used a source, add APA or legal citation support.");
   }
 
   if (mode === "legal") {
     issues.push("Legal writing reminder: identify the issue, rule, application, and conclusion when possible.");
-    issues.push("Legal citation reminder: use Bluebook or professor-required citation format for cases, statutes, and regulations.");
   }
 
   if (mode === "discussion") {
-    issues.push("Discussion reminder: include a clear main point, personal or practical connection, and an open-ended question if required.");
+    issues.push("Discussion reminder: include a clear main point, personal/practical connection, and an open-ended question if required.");
   }
 
   if (mode === "school") {
@@ -326,20 +517,27 @@ Read it out loud once. Make sure it sounds like you, but still uses complete sen
 }
 
 function clearGrammar() {
-  document.getElementById("grammarInput").value = "";
-  document.getElementById("grammarOutput").textContent = "Your grammar, spelling, and citation reminders will appear here.";
+  const input = document.getElementById("grammarInput");
+  const output = document.getElementById("grammarOutput");
+
+  if (input) input.value = "";
+  if (output) output.textContent = "Your grammar, spelling, and citation reminders will appear here.";
+
   localStorage.removeItem("grammarOutput");
 }
 
-/* ASSIGNMENTS */
+/* ---------------------------
+   ASSIGNMENTS
+---------------------------- */
+
 function addAssignment() {
   const item = {
-    className: document.getElementById("assignmentClass").value,
-    title: document.getElementById("assignmentTitle").value,
-    due: document.getElementById("assignmentDue").value,
-    priority: document.getElementById("assignmentPriority").value,
-    status: document.getElementById("assignmentStatus").value,
-    notes: document.getElementById("assignmentNotes").value
+    className: getValue("assignmentClass"),
+    title: getValue("assignmentTitle"),
+    due: getValue("assignmentDue"),
+    priority: getValue("assignmentPriority"),
+    status: getValue("assignmentStatus"),
+    notes: getValue("assignmentNotes")
   };
 
   if (!item.title.trim()) {
@@ -351,15 +549,11 @@ function addAssignment() {
   saveAll();
   renderAssignments();
 
-  document.getElementById("assignmentClass").value = "";
-  document.getElementById("assignmentTitle").value = "";
-  document.getElementById("assignmentDue").value = "";
-  document.getElementById("assignmentNotes").value = "";
+  clearFields(["assignmentClass", "assignmentTitle", "assignmentDue", "assignmentNotes"]);
 }
 
 function renderAssignments() {
   const list = document.getElementById("assignmentList");
-
   if (!list) return;
 
   if (assignments.length === 0) {
@@ -393,13 +587,16 @@ function deleteAssignment(index) {
   renderAssignments();
 }
 
-/* NOTES */
+/* ---------------------------
+   NOTES
+---------------------------- */
+
 function addNote() {
   const item = {
-    className: document.getElementById("noteClass").value,
-    unit: document.getElementById("noteUnit").value,
-    topic: document.getElementById("noteTopic").value,
-    text: document.getElementById("noteText").value
+    className: getValue("noteClass"),
+    unit: getValue("noteUnit"),
+    topic: getValue("noteTopic"),
+    text: getValue("noteText")
   };
 
   if (!item.text.trim()) {
@@ -411,16 +608,12 @@ function addNote() {
   saveAll();
   renderNotes();
 
-  document.getElementById("noteClass").value = "";
-  document.getElementById("noteUnit").value = "";
-  document.getElementById("noteTopic").value = "";
-  document.getElementById("noteText").value = "";
+  clearFields(["noteClass", "noteUnit", "noteTopic", "noteText"]);
 }
 
 function renderNotes() {
   const list = document.getElementById("noteList");
-  const searchInput = document.getElementById("noteSearch");
-  const search = searchInput ? searchInput.value.toLowerCase() : "";
+  const search = getValue("noteSearch").toLowerCase();
 
   if (!list) return;
 
@@ -453,16 +646,19 @@ function deleteNote(index) {
   renderNotes();
 }
 
-/* APA */
+/* ---------------------------
+   APA
+---------------------------- */
+
 function generateAPA() {
-  const title = document.getElementById("apaTitle").value;
-  const thesis = document.getElementById("apaThesis").value;
-  const intro = document.getElementById("apaIntro").value;
-  const body1 = document.getElementById("apaBody1").value;
-  const body2 = document.getElementById("apaBody2").value;
-  const body3 = document.getElementById("apaBody3").value;
-  const conclusion = document.getElementById("apaConclusion").value;
-  const references = document.getElementById("apaReferences").value;
+  const title = getValue("apaTitle");
+  const thesis = getValue("apaThesis");
+  const intro = getValue("apaIntro");
+  const body1 = getValue("apaBody1");
+  const body2 = getValue("apaBody2");
+  const body3 = getValue("apaBody3");
+  const conclusion = getValue("apaConclusion");
+  const references = getValue("apaReferences");
 
   const outline =
 `APA 7 Paper Outline
@@ -494,54 +690,87 @@ APA Reminders:
 - Include APA in-text citations when using source ideas.
 - Include a reference list.
 - Cite specific source ideas where they appear.
-- Do not rely on one bulk citation at the end of a paragraph if several source ideas are used.
 
 References:
 ${references || "[Add APA references here]"}`;
 
-  document.getElementById("apaOutput").textContent = outline;
+  const output = document.getElementById("apaOutput");
+  if (output) output.textContent = outline;
+
   localStorage.setItem("apaOutput", outline);
 }
 
-/* DISCUSSION */
-function generateDiscussion() {
-  const className = document.getElementById("discussionClass").value;
-  const prompt = document.getElementById("discussionPrompt").value;
-  const main = document.getElementById("discussionMain").value;
-  const personal = document.getElementById("discussionPersonal").value;
-  const sources = document.getElementById("discussionSources").value;
+/* ---------------------------
+   DISCUSSION — IDEA GENERATOR, NOT FULL POST
+---------------------------- */
 
-  const draft =
-`Class:
+function generateDiscussion() {
+  const className = getValue("discussionClass");
+  const prompt = getValue("discussionPrompt");
+  const main = getValue("discussionMain");
+  const personal = getValue("discussionPersonal");
+  const sources = getValue("discussionSources");
+
+  const ideas =
+`Discussion Response Ideas
+
+Class:
 ${className || "[Class name]"}
 
-Discussion Draft:
+Prompt / Topic:
+${prompt || "[Add the discussion prompt]"}
 
-The main issue in this discussion is ${prompt || "[state the issue from the prompt]"}. My view is that ${main || "[state your main point clearly]"}.
+Possible Angles You Could Respond With:
 
-One reason this matters is that legal and social issues usually affect real people, not just rules on paper. ${personal || "[add your personal connection or example here]"}
+1. Explain the rule or concept in plain English.
+Use this when the prompt has legal, social, or academic wording that classmates may interpret differently.
 
-Based on the course material and outside research, this topic connects to the larger point that students need to explain not only what the rule or concept says, but also why it matters in practice.
+2. Connect the topic to a real-life situation.
+You could connect this to a court case, family issue, workplace issue, property issue, school situation, or everyday responsibility.
 
-Source / Citation Notes:
-${sources || "[Add APA citations, Bluebook notes, or source notes here]"}
+3. Agree, but add another point.
+A good reply could say the classmate made a strong point, then add another fact, example, or consequence they did not mention.
 
-Reply Question:
-How do you think this issue would change if the facts were slightly different?`;
+4. Respectfully disagree or complicate the issue.
+You could explain that the answer may change depending on the facts, the people involved, or the rule being applied.
 
-  document.getElementById("discussionOutput").textContent = draft;
-  localStorage.setItem("discussionOutput", draft);
+5. Ask a thoughtful follow-up question.
+Example: “How do you think the outcome would change if one important fact were different?”
+
+Your Main Thought:
+${main || "[Add your main idea here]"}
+
+Personal / Real-Life Connection You Could Use:
+${personal || "[Add a personal or practical connection here]"}
+
+Source or Citation Reminder:
+${sources || "[Add APA or Bluebook citation notes here if required]"}
+
+Reply Starter Ideas:
+- “I see your point, especially because…”
+- “One thing I would add is…”
+- “This made me think about how the rule would apply if…”
+- “I agree with your main idea, but I also think…”
+- “A real-life example of this could be…”`;
+
+  const output = document.getElementById("discussionOutput");
+  if (output) output.textContent = ideas;
+
+  localStorage.setItem("discussionOutput", ideas);
 }
 
-/* CITATIONS */
+/* ---------------------------
+   CITATIONS
+---------------------------- */
+
 function addCitation() {
   const item = {
-    type: document.getElementById("citationType").value,
-    author: document.getElementById("citationAuthor").value,
-    year: document.getElementById("citationYear").value,
-    title: document.getElementById("citationTitle").value,
-    source: document.getElementById("citationSource").value,
-    url: document.getElementById("citationURL").value
+    type: getValue("citationType"),
+    author: getValue("citationAuthor"),
+    year: getValue("citationYear"),
+    title: getValue("citationTitle"),
+    source: getValue("citationSource"),
+    url: getValue("citationURL")
   };
 
   if (!item.author.trim() && !item.title.trim()) {
@@ -553,16 +782,11 @@ function addCitation() {
   saveAll();
   renderCitations();
 
-  document.getElementById("citationAuthor").value = "";
-  document.getElementById("citationYear").value = "";
-  document.getElementById("citationTitle").value = "";
-  document.getElementById("citationSource").value = "";
-  document.getElementById("citationURL").value = "";
+  clearFields(["citationAuthor", "citationYear", "citationTitle", "citationSource", "citationURL"]);
 }
 
 function renderCitations() {
   const list = document.getElementById("citationList");
-
   if (!list) return;
 
   if (citations.length === 0) {
@@ -586,12 +810,15 @@ function deleteCitation(index) {
   renderCitations();
 }
 
-/* STUDY CARDS */
+/* ---------------------------
+   STUDY CARDS
+---------------------------- */
+
 function addCard() {
   const item = {
-    topic: document.getElementById("cardTopic").value,
-    front: document.getElementById("cardFront").value,
-    back: document.getElementById("cardBack").value
+    topic: getValue("cardTopic"),
+    front: getValue("cardFront"),
+    back: getValue("cardBack")
   };
 
   if (!item.front.trim() || !item.back.trim()) {
@@ -603,14 +830,11 @@ function addCard() {
   saveAll();
   renderCards();
 
-  document.getElementById("cardTopic").value = "";
-  document.getElementById("cardFront").value = "";
-  document.getElementById("cardBack").value = "";
+  clearFields(["cardTopic", "cardFront", "cardBack"]);
 }
 
 function renderCards() {
   const list = document.getElementById("cardList");
-
   if (!list) return;
 
   if (cards.length === 0) {
@@ -645,7 +869,10 @@ function deleteCard(event, index) {
   renderCards();
 }
 
-/* CLEARING */
+/* ---------------------------
+   CLEARING
+---------------------------- */
+
 function clearData(type) {
   if (!confirm("Are you sure you want to clear this section?")) return;
 
@@ -667,7 +894,7 @@ function clearOutput(id) {
 
   if (output) {
     if (id === "apaOutput") output.textContent = "Your APA outline will appear here.";
-    if (id === "discussionOutput") output.textContent = "Your discussion post will appear here.";
+    if (id === "discussionOutput") output.textContent = "Your discussion ideas will appear here.";
   }
 
   if (id === "apaOutput") localStorage.removeItem("apaOutput");
@@ -683,6 +910,7 @@ function clearEverything() {
   citations = [];
   cards = [];
   notes = [];
+  currentTestAnswer = "";
 
   renderAssignments();
   renderCitations();
@@ -690,18 +918,40 @@ function clearEverything() {
   renderNotes();
   renderProfessorRules();
 
-  const translatorOutput = document.getElementById("translatorOutput");
-  const grammarOutput = document.getElementById("grammarOutput");
-  const apaOutput = document.getElementById("apaOutput");
-  const discussionOutput = document.getElementById("discussionOutput");
-
-  if (translatorOutput) translatorOutput.textContent = "Your plain-English explanation will appear here.";
-  if (grammarOutput) grammarOutput.textContent = "Your grammar, spelling, and citation reminders will appear here.";
-  if (apaOutput) apaOutput.textContent = "Your APA outline will appear here.";
-  if (discussionOutput) discussionOutput.textContent = "Your discussion post will appear here.";
+  setText("translatorOutput", "Your plain-English explanation will appear here.");
+  setText("grammarOutput", "Your grammar, spelling, and citation reminders will appear here.");
+  setText("apaOutput", "Your APA outline will appear here.");
+  setText("discussionOutput", "Your discussion ideas will appear here.");
+  setText("testQuestion", "Your test question will appear here.");
+  setText("testAnswer", "The answer will appear here after you click Show Answer.");
 }
 
-/* HELPER */
+/* ---------------------------
+   HELPERS
+---------------------------- */
+
+function getValue(id) {
+  const el = document.getElementById(id);
+  return el ? el.value : "";
+}
+
+function setText(id, text) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = text;
+}
+
+function clearFields(ids) {
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = "";
+  });
+}
+
+function shortenText(text, max) {
+  if (!text) return "";
+  return text.length > max ? text.slice(0, max) + "..." : text;
+}
+
 function escapeHTML(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -711,7 +961,10 @@ function escapeHTML(value) {
     .replaceAll("'", "&#039;");
 }
 
-/* START APP */
+/* ---------------------------
+   START APP
+---------------------------- */
+
 function startApp() {
   renderAssignments();
   renderCitations();
@@ -723,22 +976,18 @@ function startApp() {
   const savedDiscussion = localStorage.getItem("discussionOutput");
   const savedTranslator = localStorage.getItem("translatorOutput");
   const savedGrammar = localStorage.getItem("grammarOutput");
+  const savedTestQuestion = localStorage.getItem("testQuestion");
+  const savedTestAnswerShown = localStorage.getItem("testAnswerShown");
+  const savedTestAnswerHidden = localStorage.getItem("testAnswerHidden");
 
-  if (savedAPA && document.getElementById("apaOutput")) {
-    document.getElementById("apaOutput").textContent = savedAPA;
-  }
-
-  if (savedDiscussion && document.getElementById("discussionOutput")) {
-    document.getElementById("discussionOutput").textContent = savedDiscussion;
-  }
-
-  if (savedTranslator && document.getElementById("translatorOutput")) {
-    document.getElementById("translatorOutput").textContent = savedTranslator;
-  }
-
-  if (savedGrammar && document.getElementById("grammarOutput")) {
-    document.getElementById("grammarOutput").textContent = savedGrammar;
-  }
+  if (savedAPA) setText("apaOutput", savedAPA);
+  if (savedDiscussion) setText("discussionOutput", savedDiscussion);
+  if (savedTranslator) setText("translatorOutput", savedTranslator);
+  if (savedGrammar) setText("grammarOutput", savedGrammar);
+  if (savedTestQuestion) setText("testQuestion", savedTestQuestion);
+  if (savedTestAnswerShown) setText("testAnswer", savedTestAnswerShown);
+  if (savedTestAnswerHidden) currentTestAnswer = savedTestAnswerHidden;
+}
 
 /* Make functions available to HTML buttons */
 window.openTab = openTab;
@@ -746,6 +995,10 @@ window.openTabById = openTabById;
 
 window.translateLegalText = translateLegalText;
 window.clearTranslator = clearTranslator;
+
+window.generateTestQuestion = generateTestQuestion;
+window.showTestAnswer = showTestAnswer;
+window.clearTestMode = clearTestMode;
 
 window.saveProfessorRules = saveProfessorRules;
 window.clearProfessorRules = clearProfessorRules;
@@ -775,9 +1028,3 @@ window.clearOutput = clearOutput;
 window.clearEverything = clearEverything;
 
 document.addEventListener("DOMContentLoaded", startApp);
-
-window.generateTestQuestion = generateTestQuestion;
-window.showTestAnswer = showTestAnswer;
-window.clearTestMode = clearTestMode;
-
-}
