@@ -196,7 +196,8 @@ ${whyItMatters}
 ${realLife}
 
 How to Use This in Class:
-Explain what the rule means, connect it to a real situation, and then explain why the outcome matters.`;
+Use this as a starting point for class notes, discussion boards, or studying. First, explain the legal rule in plain English. Then connect it to a real-life situation, such as a court case, contract, family issue, property dispute, workplace problem, or school-related example. Finally, explain why the rule matters by showing how it could affect a person’s rights, responsibilities, money, property, freedom, or future outcome.
+
   }
 
   output.textContent = result;
