@@ -21,6 +21,7 @@
     <nav class="tabs">
       <button class="tab-btn active" type="button" onclick="openTab('dashboard', this)">Dashboard</button>
       <button class="tab-btn" type="button" onclick="openTab('translator', this)">Translator</button>
+      <button class="tab-btn" type="button" onclick="openTab('testmode', this)">Test Me</button>
       <button class="tab-btn" type="button" onclick="openTab('professor', this)">Professor Mode</button>
       <button class="tab-btn" type="button" onclick="openTab('grammar', this)">Grammar Check</button>
       <button class="tab-btn" type="button" onclick="openTab('assignments', this)">Assignments</button>
@@ -41,6 +42,13 @@
           <h3>⚖️ Legal Translator</h3>
           <p>Turn legal wording into plain English for class notes and discussion boards.</p>
         </div>
+
+        <div class="card dashboard-card" onclick="openTabById('testmode')">
+  <h3>🧠 Test Me</h3>
+  <p>Quiz yourself on legal terms, rules, citations, APA basics, and class concepts.</p>
+</div>
+        </div>
+    
 
         <div class="card dashboard-card" onclick="openTabById('professor')">
           <h3>🎓 Professor Mode</h3>
@@ -90,31 +98,69 @@
     </section>
 
     <!-- TRANSLATOR -->
-    <section id="translator" class="tab">
-      <h2>Plain-English Legal Translator</h2>
+  <!-- TRANSLATOR -->
+<section id="translator" class="tab">
+  <h2>Plain-English Legal Translator</h2>
 
-      <div class="grid">
-        <div class="card">
-          <label for="legalInput">Paste Legal Text</label>
-          <textarea id="legalInput" placeholder="Paste legal wording, statute language, assignment wording, or a court paragraph here."></textarea>
+  <div class="grid">
+    <div class="card">
+      <label for="legalInput">Paste Legal Text</label>
+      <textarea id="legalInput" placeholder="Paste legal wording, statute language, court wording, assignment wording, or a legal paragraph here."></textarea>
 
-          <label for="translatorLevel">Translation Style</label>
-          <select id="translatorLevel">
-            <option value="simple">Simple / Plain English</option>
-            <option value="student">Law Student Notes</option>
-            <option value="discussion">Discussion Post Explanation</option>
-          </select>
+      <label for="translatorLevel">Translation Style</label>
+      <select id="translatorLevel">
+        <option value="full">Plain English + Why It Matters + Real Life Example</option>
+        <option value="simple">Simple Plain English</option>
+        <option value="student">Law Student Notes</option>
+        <option value="discussion">Discussion Post Explanation</option>
+      </select>
 
-          <button class="action" type="button" onclick="translateLegalText()">Translate</button>
-          <button class="action danger" type="button" onclick="clearTranslator()">Clear</button>
-        </div>
+      <button class="action" type="button" onclick="translateLegalText()">Translate</button>
+      <button class="action danger" type="button" onclick="clearTranslator()">Clear</button>
+    </div>
 
-        <div class="card">
-          <h3>Translation</h3>
-          <div id="translatorOutput" class="output">Your plain-English explanation will appear here.</div>
-        </div>
-      </div>
-    </section>
+    <div class="card">
+      <h3>Translation</h3>
+      <div id="translatorOutput" class="output">Your plain-English explanation will appear here.</div>
+    </div>
+  </div>
+</section>
+    <!-- TEST MODE -->
+<section id="testmode" class="tab">
+  <h2>Test Me</h2>
+
+  <div class="grid">
+    <div class="card">
+      <label for="testTopic">Test Topic</label>
+      <select id="testTopic">
+        <option value="legalTerms">Legal Terms</option>
+        <option value="apa">APA Basics</option>
+        <option value="citations">Citation Rules</option>
+        <option value="civil">Civil Litigation</option>
+        <option value="realestate">Real Estate Law</option>
+      </select>
+
+      <label for="testDifficulty">Difficulty</label>
+      <select id="testDifficulty">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+
+      <button class="action" type="button" onclick="generateTestQuestion()">Give Me a Question</button>
+      <button class="action green" type="button" onclick="showTestAnswer()">Show Answer</button>
+      <button class="action danger" type="button" onclick="clearTestMode()">Clear</button>
+    </div>
+
+    <div class="card">
+      <h3>Question</h3>
+      <div id="testQuestion" class="output">Your test question will appear here.</div>
+
+      <h3>Answer</h3>
+      <div id="testAnswer" class="output">The answer will appear here after you click Show Answer.</div>
+    </div>
+  </div>
+</section>
 
     <!-- PROFESSOR MODE -->
     <section id="professor" class="tab">
